@@ -1,0 +1,40 @@
+{
+    "name": "PlayerInputAction",
+    "maps": [
+        {
+            "name": "Player1",
+            "id": "d831e3a7-dba7-4644-a600-c1ae16db8d9b",
+            "actions": [],
+            "bindings": []
+        },
+        {
+            "name": "Player2",
+            "id": "a8edcf8e-dcb8-4a7c-9d5b-7dae61b6935b",
+            "actions": [
+                {
+                    "name": "PlaceBlock",
+                    "type": "Button",
+                    "id": "80fd72b2-3240-4d28-acff-47eba107eccf",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "b7ff219e-ca37-42a7-9c7a-9b77986a2017",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlaceBlock",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
