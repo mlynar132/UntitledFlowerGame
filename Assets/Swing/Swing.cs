@@ -6,36 +6,62 @@ using UnityEngine;
 
 public class Swing : MonoBehaviour
 {
-    [SerializeField] private GameObject _ropeO;
+    [SerializeField] private GameObject _ropeObject;
     [SerializeField] private Camera _camera;
     [SerializeField] private Rope _rope;
+    [SerializeField] private LayerMask _layerMask;
+    [SerializeField, Range( 1, 100 )] private float _range;
 
     private void Start( )
     {
-        _ropeO.SetActive( false );
+        _ropeObject.SetActive( false );
     }
 
     private void Update( )
     {
         if ( Input.GetMouseButtonDown( 0 ) )
         {
-            // Get where in the world we want to grapple
-            var mousePosition = ( Vector2 )Input.mousePosition;
-            var ray = _camera.ScreenPointToRay( mousePosition );
-
-            if ( Physics.Raycast( ray, out var hit, 100f ) )
-            {
-                var position = hit.point;
-                position.z = 0;
-                _rope.MoveRope( transform.position, position );
-                _ropeO.SetActive( true );
-
-            }
+            Throw();
         }
 
         if ( !Input.GetMouseButton( 0 ) )
         {
-            _ropeO.SetActive( false );
+            Release();
         }
+
+        var playerPos = transform.position;
+        var camTransform = _camera.transform;
+        var camPos = camTransform.position;
+        playerPos.z = camPos.z;
+
+        camTransform.position = playerPos;
+    }
+
+    public void Throw( )
+    {
+        // Get where in the world we want to grapple
+        var mousePosition = ( Vector2 )Input.mousePosition;
+        var ray = _camera.ScreenPointToRay( mousePosition );
+
+        if ( Physics.Raycast( ray, out var backHit, 100f ) )
+        {
+            var backHitPoint = backHit.point;
+            backHitPoint.z = 0;
+
+            var position = transform.position;
+
+            var grabHit = Physics2D.Raycast( position, ( backHitPoint - position ), _range, _layerMask );
+
+            if ( grabHit )
+            {
+                _rope.Grapple( grabHit.point );
+                _ropeObject.SetActive( true );
+            }
+        }
+    }
+
+    public void Release( )
+    {
+        _ropeObject.SetActive( false );
     }
 }

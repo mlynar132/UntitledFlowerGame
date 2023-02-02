@@ -41,6 +41,15 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""WhipAttack"",
+                    ""type"": ""Button"",
+                    ""id"": ""854cfecf-7bbe-4fb8-98b2-8b0274ce71bf"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -54,6 +63,17 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""action"": ""PlaceBlock"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e9087153-2831-4de7-b5ef-65a52c7f74d3"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""WhipAttack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -65,6 +85,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         // Player2
         m_Player2 = asset.FindActionMap("Player2", throwIfNotFound: true);
         m_Player2_PlaceBlock = m_Player2.FindAction("PlaceBlock", throwIfNotFound: true);
+        m_Player2_WhipAttack = m_Player2.FindAction("WhipAttack", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -150,11 +171,13 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Player2;
     private IPlayer2Actions m_Player2ActionsCallbackInterface;
     private readonly InputAction m_Player2_PlaceBlock;
+    private readonly InputAction m_Player2_WhipAttack;
     public struct Player2Actions
     {
         private @PlayerInputAction m_Wrapper;
         public Player2Actions(@PlayerInputAction wrapper) { m_Wrapper = wrapper; }
         public InputAction @PlaceBlock => m_Wrapper.m_Player2_PlaceBlock;
+        public InputAction @WhipAttack => m_Wrapper.m_Player2_WhipAttack;
         public InputActionMap Get() { return m_Wrapper.m_Player2; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -167,6 +190,9 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @PlaceBlock.started -= m_Wrapper.m_Player2ActionsCallbackInterface.OnPlaceBlock;
                 @PlaceBlock.performed -= m_Wrapper.m_Player2ActionsCallbackInterface.OnPlaceBlock;
                 @PlaceBlock.canceled -= m_Wrapper.m_Player2ActionsCallbackInterface.OnPlaceBlock;
+                @WhipAttack.started -= m_Wrapper.m_Player2ActionsCallbackInterface.OnWhipAttack;
+                @WhipAttack.performed -= m_Wrapper.m_Player2ActionsCallbackInterface.OnWhipAttack;
+                @WhipAttack.canceled -= m_Wrapper.m_Player2ActionsCallbackInterface.OnWhipAttack;
             }
             m_Wrapper.m_Player2ActionsCallbackInterface = instance;
             if (instance != null)
@@ -174,6 +200,9 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @PlaceBlock.started += instance.OnPlaceBlock;
                 @PlaceBlock.performed += instance.OnPlaceBlock;
                 @PlaceBlock.canceled += instance.OnPlaceBlock;
+                @WhipAttack.started += instance.OnWhipAttack;
+                @WhipAttack.performed += instance.OnWhipAttack;
+                @WhipAttack.canceled += instance.OnWhipAttack;
             }
         }
     }
@@ -184,5 +213,6 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
     public interface IPlayer2Actions
     {
         void OnPlaceBlock(InputAction.CallbackContext context);
+        void OnWhipAttack(InputAction.CallbackContext context);
     }
 }

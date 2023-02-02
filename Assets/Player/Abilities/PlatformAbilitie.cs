@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,8 +8,8 @@ public class PlatformAbilitie: MonoBehaviour
 {
     private PlayerInputAction _playerInputAction;
     [SerializeField] private GameObject _gameObject;
-    [SerializeField] private Camera _camera;
-    [SerializeField] private float _sense;
+    [SerializeField] private GameObject _player;
+    private GameObject lol;
     private void Awake()
     {
         _playerInputAction = new PlayerInputAction();
@@ -23,19 +24,48 @@ public class PlatformAbilitie: MonoBehaviour
     }
     private void PlaceBlock(InputAction.CallbackContext context)
     {
-        //get world pos from mouse input
-        Vector3 mousePos = Mouse.current.position.ReadValue();
-        mousePos.z = Camera.main.nearClipPlane + _camera.transform.position.z*-1; //z won't be 0 but it will be closer to 0 than 1 or -1
-        //snap to grid
+        if (context.started)
+        {
+            //get position
+            Vector3 worldPos = _player.transform.position;
+            //make restriction for spawning 
+            //if (Physics.OverlapBox(worldPos, Vector3.one * 0.45f, Quaternion.identity/*layer masks for condition*/).Length==0) //can't be 0.5 cuz edges will colide {   
+          
+            //}
+            //spawn
+            lol = Instantiate(_gameObject, worldPos, Quaternion.identity);
+            lol.transform.GetComponent<MeshRenderer>().material.color = Color.green;
 
-        //spawn
-        Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
-        worldPos.x = Mathf.RoundToInt(worldPos.x);
-        worldPos.y = Mathf.RoundToInt(worldPos.y);
-        worldPos.z = Mathf.RoundToInt(worldPos.z);
-        Debug.Log(worldPos);
-        GameObject d = Instantiate(_gameObject, worldPos, Quaternion.identity);
-        d.transform.GetComponent<MeshRenderer>().material.color = Color.red;
+        }
+        if (context.canceled && lol != null)
+        {
+            Destroy(lol);
+            _player.SetActive(true);
+        }
+        /*Debug.Log(context);
+        if (context.started)
+        {
+            Debug.Log("DAS");
+            //get world pos from mouse input
+            Vector3 mousePos = Mouse.current.position.ReadValue();
+            mousePos.z = Camera.main.nearClipPlane + _camera.transform.position.z*-1; //z won't be 0 but it will be closer to 0 than 1 or -1
+            Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+            //snap to grid
+            worldPos.x = Mathf.RoundToInt(worldPos.x);
+            worldPos.y = Mathf.RoundToInt(worldPos.y);
+            worldPos.z = Mathf.RoundToInt(worldPos.z);
+            //make restriction for spawning 
+            if (Physics.OverlapBox(worldPos, Vector3.one * 0.45f,Quaternion.identity/*layer masks for condition).Length==0) //can't be 0.5 cuz edges will colide
+            {
+                //spawn
+                lol = Instantiate(_gameObject, worldPos, Quaternion.identity);
+                lol.transform.GetComponent<MeshRenderer>().material.color = Color.red;
+            }
+        }
+        if (context.canceled && lol != null)
+        {
+            Destroy(lol);
+        }*/
         /*  RaycastHit hit;
           Ray ray2 = _camera.ScreenPointToRay(Input.mousePosition);
           //Ray ray3 = new Ray (_camera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0)), Vector3.forward);
@@ -94,11 +124,16 @@ public class PlatformAbilitie: MonoBehaviour
     public void EnableLeft()
     {
         _playerInputAction.Player2.PlaceBlock.Enable();
-        _playerInputAction.Player2.PlaceBlock.performed += PlaceBlock;
+        _playerInputAction.Player2.PlaceBlock.started += PlaceBlock;
+       // _playerInputAction.Player2.PlaceBlock.performed += PlaceBlock;
+        _playerInputAction.Player2.PlaceBlock.canceled += PlaceBlock;
+
     }
     public void DiableLeft()
     {
         _playerInputAction.Player2.PlaceBlock.Disable();
-        _playerInputAction.Player2.PlaceBlock.performed -= PlaceBlock;
+        _playerInputAction.Player2.PlaceBlock.started -= PlaceBlock;
+        // _playerInputAction.Player2.PlaceBlock.performed -= PlaceBlock;
+        _playerInputAction.Player2.PlaceBlock.canceled -= PlaceBlock;
     }
 }

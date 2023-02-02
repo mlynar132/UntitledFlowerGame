@@ -17,7 +17,11 @@ TagManager:
   - Player
   - Background
   - Darkness
+<<<<<<< Updated upstream
   - Ground
+=======
+  - Rope
+>>>>>>> Stashed changes
   - 
   - 
   - 

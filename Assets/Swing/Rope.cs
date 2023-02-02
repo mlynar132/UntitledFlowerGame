@@ -1,52 +1,71 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEditor;
 
 public class Rope : MonoBehaviour
 {
-    [SerializeField, Range( 2, 100 )] private int _numJoints;
-    [SerializeField] private Rigidbody _boundRb;
-    [SerializeField] private GameObject _jointPrefab;
-    [SerializeField, Min( 0f )] private float _length;
-    [SerializeField] private List<GameObject> _joints;
+    [SerializeField] private Rigidbody2D _boundRb;
+    [SerializeField] private GameObject _grapple;
+    [SerializeField] private List<Vector2> _refPoints;
+    [SerializeField] private LayerMask _layerMask;
+    [SerializeField] private LineRenderer _line;
 
-    [ContextMenu( "Generate Rope" )]
-    private void GenerateRope( )
+    private void FixedUpdate( )
     {
-        _joints = new List<GameObject>();
+        var playerPos = _boundRb.position;
+        var grapplePos = ( Vector2 )_grapple.transform.position;
 
-        var segLength = _length / _numJoints;
-        var nextPos = segLength * ( _numJoints - 1 ) * Vector3.down;
-        var first = Instantiate( _jointPrefab, nextPos, Quaternion.identity, transform );
-        nextPos.y += segLength;
 
-        first.GetComponent<Joint>().connectedBody = _boundRb;
-        _joints.Add( first );
-
-        first.name = "first";
-
-        for ( int i = 1; i < _numJoints; i++ )
+        for ( var i = 0; i < _refPoints.Count; i++ )
         {
-            var jointObject = Instantiate( _jointPrefab, nextPos, Quaternion.identity, transform );
-            nextPos.y += segLength;
-            var joint = jointObject.GetComponent<Joint>();
-            var rb = _joints[i - 1].GetComponent<Rigidbody>();
-            joint.connectedBody = rb;
-            _joints.Add( jointObject );
+            var point = _refPoints[i];
+            var pointDist = Vector2.Distance( playerPos, point ) * 0.99f; // To avoid it getting stuck, do slightly less
+            var refHit = Physics2D.Raycast( playerPos, ( point - playerPos ).normalized, pointDist, _layerMask );
+
+            if ( !refHit )
+            {
+                grapplePos = point;
+
+                _refPoints.RemoveRange( i, _refPoints.Count - i );
+            }
         }
 
-        // The last joint needs to be an anchor, aka kinematic
-        var last = _joints[^1];
-        last.transform.position = Vector3.zero;
-        last.GetComponent<Rigidbody>().isKinematic = true;
-        last.name = "last";
+
+        var distance = Vector2.Distance( grapplePos, playerPos );
+        var hit = Physics2D.Raycast( playerPos, ( grapplePos - playerPos ).normalized, distance, _layerMask );
+
+        if ( hit )
+        {
+            _refPoints.Add( grapplePos );
+            grapplePos = hit.point;
+        }
+
+        _grapple.transform.position = grapplePos;
     }
 
-    public void MoveRope( Vector3 start, Vector3 end )
+    private void LateUpdate( )
     {
-        for ( int i = 0; i < _numJoints; i++ )
+        // Player and grapple adds 2
+        _line.positionCount = _refPoints.Count + 2;
+
+        var points = new List<Vector3>();
+        points.Add( _boundRb.position );
+        points.Add( _grapple.transform.position );
+
+        foreach ( var point in _refPoints )
         {
-            _joints[i].transform.position = Vector3.Lerp( start, end, i / ( _numJoints - 1f ) );
+            points.Add( point );
         }
+
+        _line.SetPositions( points.ToArray() );
+    }
+
+    public void Grapple( Vector2 target )
+    {
+        _grapple.transform.position = target;
+        _refPoints.Clear();
     }
 }

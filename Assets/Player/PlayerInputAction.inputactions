@@ -19,6 +19,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "WhipAttack",
+                    "type": "Button",
+                    "id": "854cfecf-7bbe-4fb8-98b2-8b0274ce71bf",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -30,6 +39,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "PlaceBlock",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e9087153-2831-4de7-b5ef-65a52c7f74d3",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "WhipAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
