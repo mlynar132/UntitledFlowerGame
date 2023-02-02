@@ -22,4 +22,5 @@ public class ScriptableEvent<T> : ScriptableObject
         currentValue = value;
         Event?.Invoke(currentValue);
     }
+    public void ResetValue() => currentValue = _startValue;
 }

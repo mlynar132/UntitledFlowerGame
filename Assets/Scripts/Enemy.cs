@@ -50,16 +50,15 @@ public class Enemy : MonoBehaviour, IStunable, IKillable
         yield return new WaitForSeconds(_stundDuration);
         _isStuned = false;
     }
-    public bool GetIsStuned()
-    {
-        return _isStuned;
-    }
     public void TakeDamage(int damage)
     {
-        _health -= damage;
-        if (_health <= 0)
+        if (_isStuned)
         {
-            Death();
+            _health -= damage;
+            if (_health <= 0)
+            {
+                Death();
+            }
         }
     }
     public void Death()

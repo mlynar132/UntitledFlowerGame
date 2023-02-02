@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Darkness : MonoBehaviour
 {
+    [SerializeField] private BoolEvent _inDarknessEvent;
     [SerializeField] private Camera _camera;
     [SerializeField] private Vector2 _offset = new Vector2(0, -5f);
     [SerializeField] private float _lerpSpeed = 3;
@@ -54,9 +55,11 @@ public class Darkness : MonoBehaviour
             {
                 Debug.Log("Player entered darkness");
             }
+
+            _t = 0;
             _lerpMove = true;
             _inDarkness = !_inDarkness;
-            _t = 0;
+            _inDarknessEvent.ChangeValue(_inDarkness);
         }
     }
 }
