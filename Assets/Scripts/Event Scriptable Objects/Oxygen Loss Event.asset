@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad4d2e9ccd51c3b49bd0a977b713bc24, type: 3}
-  m_Name: Player Health Event
+  m_Script: {fileID: 11500000, guid: 3c9c46dc92ccb4c4e81b6bab34661d02, type: 3}
+  m_Name: Oxygen Loss Event
   m_EditorClassIdentifier: 
-  _startValue: 3
-  currentValue: 3
+  _startValue: 0
+  currentValue: 0

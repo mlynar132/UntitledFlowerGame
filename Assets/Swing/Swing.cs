@@ -9,7 +9,6 @@ public class Swing : MonoBehaviour
     [SerializeField] private GameObject _ropeObject;
     [SerializeField] private Camera _camera;
     [SerializeField] private Rope _rope;
-    [SerializeField] private LayerMask _layerMask;
     [SerializeField, Range( 1, 100 )] private float _range;
 
     private void Start( )
@@ -50,13 +49,8 @@ public class Swing : MonoBehaviour
 
             var position = transform.position;
 
-            var grabHit = Physics2D.Raycast( position, ( backHitPoint - position ), _range, _layerMask );
-
-            if ( grabHit )
-            {
-                _rope.Grapple( grabHit.point );
-                _ropeObject.SetActive( true );
-            }
+            _rope.Grapple( position, ( backHitPoint - position ).normalized, _range, true );
+            _ropeObject.SetActive( true );
         }
     }
 
