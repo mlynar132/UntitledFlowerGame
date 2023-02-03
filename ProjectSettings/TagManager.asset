@@ -3,12 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-<<<<<<< HEAD
   tags: []
-=======
-  tags:
-  - Wall
->>>>>>> 05f75e1b95e2696e6dab7062bcb0db70432113bb
   layers:
   - Default
   - TransparentFX
@@ -16,17 +11,10 @@ TagManager:
   - 
   - Water
   - UI
-<<<<<<< HEAD
   - 
   - 
   - 
   - 
-=======
-  - Player
-  - Background
-  - Darkness
-  - Rope
->>>>>>> 05f75e1b95e2696e6dab7062bcb0db70432113bb
   - 
   - 
   - 
