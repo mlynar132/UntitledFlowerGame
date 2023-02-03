@@ -3,10 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - Wall
-  - Ground
-  - Player2
+  tags: []
   layers:
   - Default
   - TransparentFX
@@ -14,14 +11,10 @@ TagManager:
   - 
   - Water
   - UI
-  - Player
-  - Background
-  - Darkness
-<<<<<<< Updated upstream
-  - Ground
-=======
-  - Rope
->>>>>>> Stashed changes
+  - 
+  - 
+  - 
+  - 
   - 
   - 
   - 
