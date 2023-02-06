@@ -47,14 +47,13 @@ public class StunAbility : MonoBehaviour
         yield return new WaitForSeconds(_attackCooldown);
         _isAttacking = false;
     }
-    private void OnEnable()
-    {
-        _playerInputAction.Player2.WhipAttack.Enable();
-        _playerInputAction.Player2.WhipAttack.started += WhipAttack;
+  //  private void OnEnable()
+   // {
+      //  _playerInputAction.Player2.WhipAttack.Enable();
+      //  _playerInputAction.Player2.WhipAttack.started += WhipAttack;
     }
-    private void OnDisable()
-    {
-        _playerInputAction.Player2.WhipAttack.Disable();
-        _playerInputAction.Player2.WhipAttack.started -= WhipAttack;
-    }
-}
+   // private void OnDisable()
+   // {
+   //     _playerInputAction.Player2.WhipAttack.Disable();
+       // _playerInputAction.Player2.WhipAttack.started -= WhipAttack;
+  //  }

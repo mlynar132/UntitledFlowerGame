@@ -4,44 +4,44 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlatformAbilitie: MonoBehaviour
-{
-    private PlayerInputAction _playerInputAction;
-    [SerializeField] private GameObject _gameObject;
-    [SerializeField] private GameObject _player;
-    private GameObject lol;
-    private void Awake()
-    {
-        _playerInputAction = new PlayerInputAction();
-    }
-    private void OnEnable()
-    {
-        EnableLeft();
-    }
-    private void OnDisable()
-    {
-        DiableLeft();
-    }
-    private void PlaceBlock(InputAction.CallbackContext context)
-    {
-        if (context.started)
-        {
+//public class PlatformAbilitie: MonoBehaviour
+//{
+    //private PlayerInputAction _playerInputAction;
+    //[SerializeField] private GameObject _gameObject;
+    //[SerializeField] private GameObject _player;
+    //private GameObject lol;
+    //private void Awake()
+    //{
+      //  _playerInputAction = new PlayerInputAction();
+    //}
+    //private void OnEnable()
+    //{
+      //  EnableLeft();
+    //}
+    //private void OnDisable()
+    //{
+      //  DiableLeft();
+    //}
+    //private void PlaceBlock(InputAction.CallbackContext context)
+    //{
+      //  if (context.started)
+        //{
             //get position
-            Vector3 worldPos = _player.transform.position;
+          //  Vector3 worldPos = _player.transform.position;
             //make restriction for spawning 
             //if (Physics.OverlapBox(worldPos, Vector3.one * 0.45f, Quaternion.identity/*layer masks for condition*/).Length==0) //can't be 0.5 cuz edges will colide {   
           
             //}
             //spawn
-            lol = Instantiate(_gameObject, worldPos, Quaternion.identity);
-            lol.transform.GetComponent<MeshRenderer>().material.color = Color.green;
+           // lol = Instantiate(_gameObject, worldPos, Quaternion.identity);
+           // l//ol.transform.GetComponent<MeshRenderer>().material.color = Color.green;
 
-        }
-        if (context.canceled && lol != null)
-        {
-            Destroy(lol);
-            _player.SetActive(true);
-        }
+        //}
+        //if (context.canceled && lol != null)
+        //{
+          //  Destroy(lol);
+            //_player.SetActive(true);
+        //}
         /*Debug.Log(context);
         if (context.started)
         {
@@ -108,7 +108,7 @@ public class PlatformAbilitie: MonoBehaviour
                    _setStart = true;
                }*
           }*/
-    }
+   // }
     /*private void SetDistanceFromEnd(int end)
     {
         int size = _generateGrid.SizeX * _generateGrid.SizeY;
@@ -121,19 +121,19 @@ public class PlatformAbilitie: MonoBehaviour
             _generateGrid.Nodes[i].FromEnd = Mathf.Abs(X - X2) + Mathf.Abs(Y - Y2);
         }
     }*/
-    public void EnableLeft()
-    {
-        _playerInputAction.Player2.PlaceBlock.Enable();
-        _playerInputAction.Player2.PlaceBlock.started += PlaceBlock;
+    //public void EnableLeft()
+   // {
+     //   _playerInputAction.Player2.PlaceBlock.Enable();
+       // _playerInputAction.Player2.PlaceBlock.started += PlaceBlock;
        // _playerInputAction.Player2.PlaceBlock.performed += PlaceBlock;
-        _playerInputAction.Player2.PlaceBlock.canceled += PlaceBlock;
+        //_playerInputAction.Player2.PlaceBlock.canceled += PlaceBlock;
 
-    }
-    public void DiableLeft()
-    {
-        _playerInputAction.Player2.PlaceBlock.Disable();
-        _playerInputAction.Player2.PlaceBlock.started -= PlaceBlock;
+    //}
+    //public void DiableLeft()
+    //{
+      //  _playerInputAction.Player2.PlaceBlock.Disable();
+        //_playerInputAction.Player2.PlaceBlock.started -= PlaceBlock;
         // _playerInputAction.Player2.PlaceBlock.performed -= PlaceBlock;
-        _playerInputAction.Player2.PlaceBlock.canceled -= PlaceBlock;
-    }
-}
+        //_playerInputAction.Player2.PlaceBlock.canceled -= PlaceBlock;
+  //  }
+//}

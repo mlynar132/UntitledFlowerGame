@@ -10,6 +10,7 @@ public class MovementController : MonoBehaviour
     private bool jumpKeyWasPressed;
     public float jumpForce;
     private float horizontalInput;
+    private float verticalInput;
     private bool isGrounded;
 
     [SerializeField] public Transform GroundCheckTransform;
@@ -26,6 +27,7 @@ public class MovementController : MonoBehaviour
 
         
         horizontalInput = Input.GetAxis("Horizontal");
+        verticalInput = Input.GetAxis("Vertical");
 
         if (Input.GetKeyDown(KeyCode.Space))
         { 
@@ -49,7 +51,7 @@ public class MovementController : MonoBehaviour
             jumpKeyWasPressed = false;
         }
 
-        rb.velocity = new Vector3(horizontalInput * moveSpeed, rb.velocity.y, 0f);
+        rb.velocity = new Vector3(horizontalInput * moveSpeed, rb.velocity.y, verticalInput* moveSpeed);
     }
 
    
