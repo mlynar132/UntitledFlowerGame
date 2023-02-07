@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 2278531219595771765}
   - component: {fileID: 2062327192171852650}
   - component: {fileID: 8952619023618883700}
-  - component: {fileID: 4763952118519963004}
   - component: {fileID: 45439593732775877}
+  - component: {fileID: 637169621582510909}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Untagged
@@ -85,20 +85,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &4763952118519963004
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 503670177896316219}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &45439593732775877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,4 +97,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f19c9d6e4eda44b4c94a5c42252da5c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _attackDuration: 2
+  _attackDuration: 1
+--- !u!70 &637169621582510909
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 503670177896316219}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 1.0000002, y: 2.0000005}
+  m_Direction: 0
