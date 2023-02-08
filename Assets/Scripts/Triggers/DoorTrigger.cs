@@ -14,20 +14,57 @@ public class DoorTrigger : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
 
+
         if (!isOpen)
         {
-            door.transform.position = new Vector3(-3.7974f, 8.2626f, -1f);
-            isOpen = true;
+            if (other.transform.CompareTag("Player 1"))
+            {
+                door.transform.position = new Vector3(-3.7974f, 8.2626f, -1f);
+               isOpen = true;
+            }
+
+            if (other.transform.CompareTag("Player 2"))
+            {
+                door.transform.position = new Vector3(-3.7974f, 8.2626f, -1f);
+                isOpen = true;
+            }
+
+            if (other.transform.CompareTag("Player 1") && other.transform.CompareTag("Player 2"))
+            {
+                door.transform.position = new Vector3(-3.7974f, 8.2626f, -1f);
+                isOpen = true;
+            }
+
         }
-        
+
     }
 
     private void OnTriggerExit(Collider other)
     {
+
+
         if (isOpen)
         {
-            door.transform.position = new Vector3(-3.7974f, 3.2626f, -1f);
-            isOpen = false;
+            if (other.transform.CompareTag("Player 1"))
+            {
+                door.transform.position = new Vector3(-3.7974f, 3.2626f, -1f);
+                isOpen = false;
+            }
+
+            if (other.transform.CompareTag("Player 2"))
+            {
+                door.transform.position = new Vector3(-3.7974f, 3.2626f, -1f);
+                isOpen = false;
+            }
+
+            if (other.transform.CompareTag("Player 1") && other.transform.CompareTag("Player 2"))
+            {
+                door.transform.position = new Vector3(-3.7974f, 3.2626f, -1f);
+                isOpen = false;
+            }
+
+
         }
+
     }
 }
