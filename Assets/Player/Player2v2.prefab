@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1201158424289539872}
   - component: {fileID: 2011787077014589149}
   - component: {fileID: 2933642041491396640}
+  - component: {fileID: 2383149323728170695}
   - component: {fileID: 8296203504687640685}
   - component: {fileID: 1133336326312123794}
   - component: {fileID: 8502163088232043796}
@@ -66,7 +67,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73f99207068fc3a4f82697e3dd2b6aad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _weaponSpawnLocation: {fileID: 0}
   _weapon: {fileID: 6114890333848885241}
 --- !u!114 &2011787077014589149
 MonoBehaviour:
@@ -95,6 +95,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84a3ddec2718a034e99cdfc2e86c88d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2383149323728170695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1201158424289539878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a12bdf14aff3bd41b8aff1f48c8302c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ropePrefab: {fileID: 8440699983061144648, guid: 111e42020cc1e50438deac0f58ffcac6, type: 3}
+  _range: 100
 --- !u!114 &8296203504687640685
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,7 +122,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Actions: {fileID: -944628639613478452, guid: 17441a90f025fa149a3a1d8a3fe93b2d, type: 3}
-  m_NotificationBehavior: 3
+  m_NotificationBehavior: 2
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:
@@ -121,25 +135,121 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents:
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2933642041491396640}
+        m_TargetAssemblyTypeName: Player2InputScript, Assembly-CSharp
+        m_MethodName: BlockInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 80fd72b2-3240-4d28-acff-47eba107eccf
     m_ActionName: Player2/PlaceBlock[/XInputControllerWindows/buttonEast,/Keyboard/capsLock]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2933642041491396640}
+        m_TargetAssemblyTypeName: Player2InputScript, Assembly-CSharp
+        m_MethodName: StunInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 854cfecf-7bbe-4fb8-98b2-8b0274ce71bf
     m_ActionName: Player2/WhipAttack[/XInputControllerWindows/buttonWest,/Keyboard/shift]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2933642041491396640}
+        m_TargetAssemblyTypeName: Player2InputScript, Assembly-CSharp
+        m_MethodName: VineInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: a420daad-77ed-43aa-90fd-2f3c9da5f824
     m_ActionName: Player2/ShootVine[/XInputControllerWindows/rightTrigger,/Mouse/leftButton]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2933642041491396640}
+        m_TargetAssemblyTypeName: Player2InputScript, Assembly-CSharp
+        m_MethodName: MoveInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 94d7ace5-624b-4dee-84cb-8c1016e83c17
     m_ActionName: Player2/Move[/XInputControllerWindows/leftStick,/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2933642041491396640}
+        m_TargetAssemblyTypeName: Player2InputScript, Assembly-CSharp
+        m_MethodName: JumpInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 5ce5aa4a-190c-486d-877e-deec8874080a
     m_ActionName: Player2/Jump[/XInputControllerWindows/buttonSouth,/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a6fe707c-b6e7-407f-adce-af99f48887ac
+    m_ActionName: Player1/Ability1[/XInputControllerWindows/buttonEast,/Keyboard/capsLock]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5a642a6c-9410-46f9-8fbf-a57ad0ceb44b
+    m_ActionName: Player1/Ability2[/XInputControllerWindows/buttonWest,/Keyboard/shift]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ccff2a03-e072-4e7c-b7f8-2fe5fd301a70
+    m_ActionName: Player1/Ability3[/XInputControllerWindows/rightTrigger,/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 966bf4b6-04c7-4c9e-a72f-3a6d89f17982
+    m_ActionName: Player1/Move[/XInputControllerWindows/leftStick,/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 81926e8d-665d-40e9-b00a-ae77e6abb051
+    m_ActionName: Player1/Jump[/XInputControllerWindows/buttonSouth,/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 96f228f5-c418-4d15-9b6a-2e50164e8912
+    m_ActionName: Player1/Swing[/XInputControllerWindows/buttonNorth]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7bd51c52-2ed7-41d0-8c41-4c74f4fd0e98
+    m_ActionName: Player1/Aim[/XInputControllerWindows/rightStick]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0932f512-f4b9-4a48-a62e-70fb739dfae3
+    m_ActionName: Player2/Swing[/XInputControllerWindows/buttonNorth]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: d7c86a77-5c24-486e-8d11-2d8d44ba0fa0
+    m_ActionName: Player2/Aim[/XInputControllerWindows/rightStick]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Controller
   m_DefaultActionMap: Player2

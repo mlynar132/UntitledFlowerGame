@@ -36,4 +36,15 @@ MonoBehaviour:
   StunAbilityCooldown: 0.15
   AllowBlockAbility: 1
   BlockAbilityCooldown: 2
+  AllowVineAbility: 1
+  GravityScaleWhileSwinging: 5
+  MovementImpactScaleWhileSwinging: 5
+  VineAbilityCooldown: 0
+  VineAbilityMaxRange: 3
+  AllowBomb: 0
+  BombCooldown: 3
+  AllowAnchor: 0
+  AnchorCooldown: 3
+  AllowDash: 0
+  DashCooldown: 3
   ExternalVelocityDecay: 100

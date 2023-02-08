@@ -8,23 +8,28 @@ using UnityEditor;
 
 public class Rope : MonoBehaviour
 {
-    [SerializeField] private Rigidbody2D _boundRb;
-    [SerializeField] private Transform _swingPoint;
-    [SerializeField] private DistanceJoint2D _joint;
-    [SerializeField] private List<Vector3> _refPoints; // Z value is which way the point faces
+    [SerializeField, Range( 0.1f, 1f )] private float _radius;
     [SerializeField] private LayerMask _layerMask;
     [SerializeField] private LineRenderer _line;
-    [SerializeField, Range( 0.1f, 1f )] private float _radius;
+    [SerializeField] private DistanceJoint2D _joint;
 
-    private void OnValidate( )
+    private Rigidbody2D _boundRb;
+    private List<Vector3> _refPoints = new List<Vector3>(); // Z value is which way the point faces
+
+    public void BindRB( Rigidbody2D rb )
+    {
+        _boundRb = rb;
+        _joint.connectedBody = _boundRb;
+    }
+
+    private void Start( )
     {
         _line.startWidth = _radius;
-        _joint.connectedBody = _boundRb;
     }
 
     private void FixedUpdate( )
     {
-        Vector2 playerPos = _swingPoint.position;
+        Vector2 playerPos = _boundRb.position;
         Vector2 grapplePos = transform.position;
 
         var distance = Vector2.Distance( grapplePos, playerPos );

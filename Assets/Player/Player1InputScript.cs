@@ -4,41 +4,61 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 public class Player1InputScript : MonoBehaviour {
     public Player1FrameInput FrameInput { get; private set; }
-    private PlayerInputAction _playerInputAction;
-    private InputAction _move, _jump, _block, _attack, _vine;
-    private void Awake() {
-        _playerInputAction = new PlayerInputAction();
-        _move = _playerInputAction.Player1.Move;
-        _jump = _playerInputAction.Player1.Jump;
-        _block = _playerInputAction.Player1.Ability1;
-        _attack = _playerInputAction.Player1.Ability2;
-        _vine = _playerInputAction.Player1.Ability3;
-    }
-    private void OnEnable() {
-        _playerInputAction.Enable();
-    }
-    private void OnDisable() {
-        _playerInputAction.Disable();
-    }
+    private Vector2 _move;
+    private bool _jumpDown, _jumpHeld, _dashDown, _bombDown, _anchorDown;
     private void Update() {
         FrameInput = GartherFrameInput();
+        ResetValues();
     }
     private Player1FrameInput GartherFrameInput() {
         return new Player1FrameInput {
-            Move = _move.ReadValue<Vector2>(),
-            JumpDown = _jump.WasPerformedThisFrame(),
-            JumpHeld = _jump.IsPressed(),
-            Ability1Down = _block.WasPerformedThisFrame(),
-            AttackDown = _attack.WasPerformedThisFrame(),
-            VineDown = _vine.WasPerformedThisFrame()
+            Move = _move,
+            JumpDown = _jumpDown,
+            JumpHeld = _jumpHeld,
+            DashDown = _dashDown,
+            BombDown = _bombDown,
+            AnchorDown = _anchorDown
         };
+    }
+    private void ResetValues() {
+        _jumpDown = false;;
+        _dashDown = false;
+        _bombDown = false;
+        _anchorDown = false;
+    }
+    public void MoveInput(InputAction.CallbackContext context) {
+        _move = context.ReadValue<Vector2>();
+    }
+    public void JumpInput(InputAction.CallbackContext context) {
+        if (context.started) {
+            _jumpDown = true;
+            _jumpHeld = true;
+        }
+        else if (context.canceled) {
+            _jumpHeld = false;
+        }
+    }
+    public void DashnInput(InputAction.CallbackContext context) {
+        if (context.started) {
+            _dashDown = true;
+        }
+    }
+    public void BombInput(InputAction.CallbackContext context) {
+        if (context.started) {
+            _bombDown = true;
+        }
+    }
+    public void AnchorInput(InputAction.CallbackContext context) {
+        if (context.started) {
+            _anchorDown = true;
+        }
     }
 }
 public struct Player1FrameInput {
     public Vector2 Move;
     public bool JumpDown;
     public bool JumpHeld;
-    public bool Ability1Down;
-    public bool AttackDown;
-    public bool VineDown;
+    public bool DashDown;
+    public bool BombDown;
+    public bool AnchorDown;
 }

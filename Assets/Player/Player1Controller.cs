@@ -30,7 +30,9 @@ public class Player1Controller : MonoBehaviour, IPlayer1Controller {
     public event Action<bool> Jumped;
     public event Action AirJumped;
     public event Action Attacked;
-    public event Action Ability1;
+    public event Action<Vector2> BombUsed;
+    public event Action AnchorUsed;
+    public event Action DashUsed;
     public ScriptableStats PlayerStats => _stats;
     public Vector2 Input => _frameInput.Move;
     public Vector2 Speed => _speed;
@@ -94,7 +96,10 @@ public class Player1Controller : MonoBehaviour, IPlayer1Controller {
         if (_frameInput.Move.x != 0) _stickyFeet = false;
 
         //if (_frameInput.DashDown && _stats.AllowDash) _dashToConsume = true;
-        if (_frameInput.Ability1Down) _attackToConsume = true;
+        if (_frameInput.BombDown) _bombToConsume = true;
+        if (_frameInput.AnchorDown) _anchorToConsume = true;//max duration?
+        if (_frameInput.DashDown) _dashToConsume = true;
+
         //if (_frameInput.AttackDown && _stats.AllowAttacks) _attackToConsume = true;
     }
     protected void FixedUpdate() {
@@ -105,14 +110,14 @@ public class Player1Controller : MonoBehaviour, IPlayer1Controller {
         HandleCollisions();
 
         HandleJump();
-
-        HandleAttacking();
+        HandleBomb();
+        HandleAnchor();
+        HandleDash();
 
         HandleHorizontal();
         HandleVertical();
         ApplyMovement();
     }
-
 
     #region Collisions
 
@@ -254,21 +259,68 @@ public class Player1Controller : MonoBehaviour, IPlayer1Controller {
 
     #endregion
 
-    #region Attacking
+    #region Bomb
 
-    private bool _attackToConsume;
-    private int _frameLastAttacked = int.MinValue;
+    private bool _bombToConsume;
+    private bool _bombReady = true;
+    Coroutine _bombCooldownCoroutine;
 
-
-    protected virtual void HandleAttacking() {
-        if (!_attackToConsume) return;
-        // note: animation looks weird if we allow attacking while crouched. consider different attack animations or not allow it while crouched
-        /*if (_fixedFrame > _frameLastAttacked + _stats.AttackFrameCooldown)*/ {
-            _frameLastAttacked = _fixedFrame;
-            Ability1?.Invoke();
+    protected virtual void HandleBomb() {
+        if (!_stats.AllowBomb) return;
+        if (_bombToConsume && _bombReady) {
+            BombUsed?.Invoke(_frameInput.Move);
+            _bombReady = false;
+            _bombCooldownCoroutine = StartCoroutine(BombCooldownCoroutine());
         }
+        _bombToConsume = false;
+    }
+    IEnumerator BombCooldownCoroutine() {
+        yield return new WaitForSeconds(_stats.StunAbilityCooldown);
+        _bombReady = true;
+    }
 
-        _attackToConsume = false;
+    #endregion
+
+    #region Anchor
+
+    private bool _anchorToConsume;
+    private bool _anchorReady = true;
+    Coroutine _anchorCooldownCoroutine;
+
+    protected virtual void HandleAnchor() {
+        if (!_stats.AllowAnchor) return;
+        if (_anchorToConsume && _anchorReady) {
+            AnchorUsed?.Invoke();
+            _anchorReady = false;
+            _anchorCooldownCoroutine = StartCoroutine(AnchorCooldownCoroutine());
+        }
+        _anchorToConsume = false;
+    }
+    IEnumerator AnchorCooldownCoroutine() {
+        yield return new WaitForSeconds(_stats.StunAbilityCooldown);
+        _anchorReady = true;
+    }
+
+    #endregion
+
+    #region Dash
+
+    private bool _dashToConsume;
+    private bool _dashReady = true;
+    Coroutine _dashCooldownCoroutine;
+
+    protected virtual void HandleDash() {
+        if (!_stats.AllowDash) return;
+        if (_dashToConsume && _dashReady) {
+            DashUsed?.Invoke();
+            _dashReady = false;
+            _dashCooldownCoroutine = StartCoroutine(DashCooldownCoroutine());
+        }
+        _dashToConsume = false;
+    }
+    IEnumerator DashCooldownCoroutine() {
+        yield return new WaitForSeconds(_stats.StunAbilityCooldown);
+        _dashReady = true;
     }
 
     #endregion
@@ -357,9 +409,6 @@ public class Player1Controller : MonoBehaviour, IPlayer1Controller {
 
 
 
-
-
-
 // this exists to get the data for other scripts easier
 public interface IPlayer1Controller {
     public event Action<bool, float> GroundedChanged; // true = Landed. false = Left the Ground. float is Impact Speed
@@ -367,8 +416,9 @@ public interface IPlayer1Controller {
     public event Action<bool> WallGrabChanged;
     public event Action<bool> Jumped; // Is wall jump
     public event Action AirJumped;
-    public event Action Attacked;
-    public event Action Ability1;
+    public event Action<Vector2> BombUsed;
+    public event Action AnchorUsed;
+    public event Action DashUsed;
     public ScriptableStats PlayerStats { get; }
     public Vector2 Input { get; }
     public Vector2 Speed { get; }

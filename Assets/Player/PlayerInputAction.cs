@@ -28,7 +28,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
             ""id"": ""71232487-cd7a-400f-8e66-10d2ef43142d"",
             ""actions"": [
                 {
-                    ""name"": ""Ability1"",
+                    ""name"": ""Dash"",
                     ""type"": ""Button"",
                     ""id"": ""a6fe707c-b6e7-407f-adce-af99f48887ac"",
                     ""expectedControlType"": ""Button"",
@@ -37,7 +37,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Ability2"",
+                    ""name"": ""Bomb"",
                     ""type"": ""Button"",
                     ""id"": ""5a642a6c-9410-46f9-8fbf-a57ad0ceb44b"",
                     ""expectedControlType"": ""Button"",
@@ -46,7 +46,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Ability3"",
+                    ""name"": ""Anchor"",
                     ""type"": ""Button"",
                     ""id"": ""ccff2a03-e072-4e7c-b7f8-2fe5fd301a70"",
                     ""expectedControlType"": ""Button"",
@@ -99,7 +99,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller"",
-                    ""action"": ""Ability1"",
+                    ""action"": ""Dash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -110,7 +110,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""Ability1"",
+                    ""action"": ""Dash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -121,7 +121,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller"",
-                    ""action"": ""Ability2"",
+                    ""action"": ""Bomb"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -198,7 +198,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""Ability2"",
+                    ""action"": ""Bomb"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -209,7 +209,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller"",
-                    ""action"": ""Ability3"",
+                    ""action"": ""Anchor"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -220,7 +220,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""Ability3"",
+                    ""action"": ""Anchor"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -550,9 +550,9 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
 }");
         // Player1
         m_Player1 = asset.FindActionMap("Player1", throwIfNotFound: true);
-        m_Player1_Ability1 = m_Player1.FindAction("Ability1", throwIfNotFound: true);
-        m_Player1_Ability2 = m_Player1.FindAction("Ability2", throwIfNotFound: true);
-        m_Player1_Ability3 = m_Player1.FindAction("Ability3", throwIfNotFound: true);
+        m_Player1_Dash = m_Player1.FindAction("Dash", throwIfNotFound: true);
+        m_Player1_Bomb = m_Player1.FindAction("Bomb", throwIfNotFound: true);
+        m_Player1_Anchor = m_Player1.FindAction("Anchor", throwIfNotFound: true);
         m_Player1_Move = m_Player1.FindAction("Move", throwIfNotFound: true);
         m_Player1_Jump = m_Player1.FindAction("Jump", throwIfNotFound: true);
         m_Player1_Swing = m_Player1.FindAction("Swing", throwIfNotFound: true);
@@ -625,9 +625,9 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
     // Player1
     private readonly InputActionMap m_Player1;
     private IPlayer1Actions m_Player1ActionsCallbackInterface;
-    private readonly InputAction m_Player1_Ability1;
-    private readonly InputAction m_Player1_Ability2;
-    private readonly InputAction m_Player1_Ability3;
+    private readonly InputAction m_Player1_Dash;
+    private readonly InputAction m_Player1_Bomb;
+    private readonly InputAction m_Player1_Anchor;
     private readonly InputAction m_Player1_Move;
     private readonly InputAction m_Player1_Jump;
     private readonly InputAction m_Player1_Swing;
@@ -636,9 +636,9 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
     {
         private @PlayerInputAction m_Wrapper;
         public Player1Actions(@PlayerInputAction wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Ability1 => m_Wrapper.m_Player1_Ability1;
-        public InputAction @Ability2 => m_Wrapper.m_Player1_Ability2;
-        public InputAction @Ability3 => m_Wrapper.m_Player1_Ability3;
+        public InputAction @Dash => m_Wrapper.m_Player1_Dash;
+        public InputAction @Bomb => m_Wrapper.m_Player1_Bomb;
+        public InputAction @Anchor => m_Wrapper.m_Player1_Anchor;
         public InputAction @Move => m_Wrapper.m_Player1_Move;
         public InputAction @Jump => m_Wrapper.m_Player1_Jump;
         public InputAction @Swing => m_Wrapper.m_Player1_Swing;
@@ -652,15 +652,15 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         {
             if (m_Wrapper.m_Player1ActionsCallbackInterface != null)
             {
-                @Ability1.started -= m_Wrapper.m_Player1ActionsCallbackInterface.OnAbility1;
-                @Ability1.performed -= m_Wrapper.m_Player1ActionsCallbackInterface.OnAbility1;
-                @Ability1.canceled -= m_Wrapper.m_Player1ActionsCallbackInterface.OnAbility1;
-                @Ability2.started -= m_Wrapper.m_Player1ActionsCallbackInterface.OnAbility2;
-                @Ability2.performed -= m_Wrapper.m_Player1ActionsCallbackInterface.OnAbility2;
-                @Ability2.canceled -= m_Wrapper.m_Player1ActionsCallbackInterface.OnAbility2;
-                @Ability3.started -= m_Wrapper.m_Player1ActionsCallbackInterface.OnAbility3;
-                @Ability3.performed -= m_Wrapper.m_Player1ActionsCallbackInterface.OnAbility3;
-                @Ability3.canceled -= m_Wrapper.m_Player1ActionsCallbackInterface.OnAbility3;
+                @Dash.started -= m_Wrapper.m_Player1ActionsCallbackInterface.OnDash;
+                @Dash.performed -= m_Wrapper.m_Player1ActionsCallbackInterface.OnDash;
+                @Dash.canceled -= m_Wrapper.m_Player1ActionsCallbackInterface.OnDash;
+                @Bomb.started -= m_Wrapper.m_Player1ActionsCallbackInterface.OnBomb;
+                @Bomb.performed -= m_Wrapper.m_Player1ActionsCallbackInterface.OnBomb;
+                @Bomb.canceled -= m_Wrapper.m_Player1ActionsCallbackInterface.OnBomb;
+                @Anchor.started -= m_Wrapper.m_Player1ActionsCallbackInterface.OnAnchor;
+                @Anchor.performed -= m_Wrapper.m_Player1ActionsCallbackInterface.OnAnchor;
+                @Anchor.canceled -= m_Wrapper.m_Player1ActionsCallbackInterface.OnAnchor;
                 @Move.started -= m_Wrapper.m_Player1ActionsCallbackInterface.OnMove;
                 @Move.performed -= m_Wrapper.m_Player1ActionsCallbackInterface.OnMove;
                 @Move.canceled -= m_Wrapper.m_Player1ActionsCallbackInterface.OnMove;
@@ -677,15 +677,15 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
             m_Wrapper.m_Player1ActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Ability1.started += instance.OnAbility1;
-                @Ability1.performed += instance.OnAbility1;
-                @Ability1.canceled += instance.OnAbility1;
-                @Ability2.started += instance.OnAbility2;
-                @Ability2.performed += instance.OnAbility2;
-                @Ability2.canceled += instance.OnAbility2;
-                @Ability3.started += instance.OnAbility3;
-                @Ability3.performed += instance.OnAbility3;
-                @Ability3.canceled += instance.OnAbility3;
+                @Dash.started += instance.OnDash;
+                @Dash.performed += instance.OnDash;
+                @Dash.canceled += instance.OnDash;
+                @Bomb.started += instance.OnBomb;
+                @Bomb.performed += instance.OnBomb;
+                @Bomb.canceled += instance.OnBomb;
+                @Anchor.started += instance.OnAnchor;
+                @Anchor.performed += instance.OnAnchor;
+                @Anchor.canceled += instance.OnAnchor;
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
@@ -803,9 +803,9 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
     }
     public interface IPlayer1Actions
     {
-        void OnAbility1(InputAction.CallbackContext context);
-        void OnAbility2(InputAction.CallbackContext context);
-        void OnAbility3(InputAction.CallbackContext context);
+        void OnDash(InputAction.CallbackContext context);
+        void OnBomb(InputAction.CallbackContext context);
+        void OnAnchor(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnSwing(InputAction.CallbackContext context);
