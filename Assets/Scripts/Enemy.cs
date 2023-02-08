@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class Enemy : MonoBehaviour, IStunable, IKillable
 {
     [SerializeField] private float _movementSpeed = 100;
@@ -13,26 +13,25 @@ public class Enemy : MonoBehaviour, IStunable, IKillable
 
     private float xDir = 1;
 
-    private Rigidbody _rigidbody;
+    private Rigidbody2D _rigidbody;
 
     private Coroutine _stunCoroutine;
 
     private void Start()
     {
-        _rigidbody = GetComponent<Rigidbody>();
+        _rigidbody = GetComponent<Rigidbody2D>();
     }
 
     void FixedUpdate()
     {
         if (!_isStuned)
         {
-            _rigidbody.velocity = new Vector3(_movementSpeed * xDir * Time.deltaTime, _rigidbody.velocity.y);
+            _rigidbody.velocity = new Vector2(_movementSpeed * xDir * Time.deltaTime, _rigidbody.velocity.y);
         }
     }
-
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag("Wall"))
+        if (collision.gameObject.CompareTag("Wall"))
         {
             if (collision.contacts[0].normal.y == 0)
             {

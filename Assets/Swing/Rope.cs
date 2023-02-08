@@ -11,7 +11,7 @@ public class Rope : MonoBehaviour
     [SerializeField] private Rigidbody2D _boundRb;
     [SerializeField] private Transform _swingPoint;
     [SerializeField] private DistanceJoint2D _joint;
-    [SerializeField] private List<Vector2> _refPoints;
+    [SerializeField] private List<Vector3> _refPoints; // Z value is which way the point faces
     [SerializeField] private LayerMask _layerMask;
     [SerializeField] private LineRenderer _line;
     [SerializeField, Range( 0.1f, 1f )] private float _radius;
@@ -40,7 +40,8 @@ public class Rope : MonoBehaviour
 
         for ( var i = _refPoints.Count - 1; i >= 0; i-- )
         {
-            var point = _refPoints[i];
+            Vector2 point = _refPoints[i];
+            var pointFacing = _refPoints[i].z; // -1 for counter clock, 1 for clock
             var pointDist = Vector2.Distance( playerPos, point );
 
             // Raycast instead of circle cast gives breathing room
@@ -54,8 +55,9 @@ public class Rope : MonoBehaviour
 
                 // Check if player is on the correct side of the rope to do the next point
                 var dotProd = Vector2.Dot( forwards, playerFwd );
+                dotProd *= pointFacing;
 
-                if ( dotProd <= 0 )
+                if ( dotProd >= 0 )
                 {
                     // Debug.Log( "Forwards: " + forwards );
                     // Debug.Log( "Player Forwards: " + playerFwd );
@@ -105,8 +107,11 @@ public class Rope : MonoBehaviour
 
             if ( Vector2.Distance( centerHit, grapplePos ) >= _radius ) // Dont care if its the same point as before
             {
-                _refPoints.Add( grapplePos );
+                Vector3 newPoint = grapplePos;
                 grapplePos = centerHit;
+                var forwards = Vector2.Perpendicular( ( ( Vector2 )newPoint - grapplePos ).normalized );
+                newPoint.z = Vector2.Dot( _boundRb.velocity.normalized, forwards );
+                _refPoints.Add( newPoint );
                 transform.position = grapplePos;
             }
             else

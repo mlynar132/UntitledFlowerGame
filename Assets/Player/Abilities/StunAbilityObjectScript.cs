@@ -5,30 +5,25 @@ using UnityEngine;
 public class StunAbilityObjectScript : MonoBehaviour
 {
     [SerializeField] private float _attackDuration;
-
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+    [SerializeField] private GameObject _attack;
+    private float _decay;
+    private void OnEnable() {
+        _decay = _attackDuration;  
     }
     private void FixedUpdate()
     {
-        _attackDuration -= Time.deltaTime;
-        if (_attackDuration<=0)
+        _decay -= Time.deltaTime;
+        if (_decay<=0)
         {
-            Destroy(this.gameObject);
+            gameObject.SetActive(false);
         }
     }
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        IStunable targetInterface = other.transform.GetComponent<IStunable>();
+        IStunable targetInterface = collision.transform.GetComponent<IStunable>();
         if (targetInterface != null)
         {
+            Debug.Log("Stunned: " + collision.name);
             targetInterface.Stun();
         }
     }
