@@ -17,6 +17,7 @@ public class Player1Controller : MonoBehaviour, IPlayer1Controller {
     private Player1FrameInput _frameInput;
     private Vector2 _speed;
     private Vector2 _currentExternalVelocity;
+    private Vector2 _lookDir = Vector2.right;
     private int _fixedFrame;
     private bool _hasControl = true;
 
@@ -31,7 +32,7 @@ public class Player1Controller : MonoBehaviour, IPlayer1Controller {
     public event Action AirJumped;
     public event Action Attacked;
     public event Action<Vector2> BombUsed;
-    public event Action AnchorUsed;
+    public event Action<Vector2> AnchorUsed;
     public event Action DashUsed;
     public ScriptableStats PlayerStats => _stats;
     public Vector2 Input => _frameInput.Move;
@@ -116,6 +117,7 @@ public class Player1Controller : MonoBehaviour, IPlayer1Controller {
 
         HandleHorizontal();
         HandleVertical();
+        HandleRotation();
         ApplyMovement();
     }
 
@@ -140,6 +142,9 @@ public class Player1Controller : MonoBehaviour, IPlayer1Controller {
         // Ground and Ceiling
         _groundHitCount = Physics2D.CapsuleCastNonAlloc(_col.bounds.center, _col.size, _col.direction, 0, Vector2.down, _groundHits, _stats.GrounderDistance, ~_stats.PlayerLayer);
         _ceilingHitCount = Physics2D.CapsuleCastNonAlloc(_col.bounds.center, _col.size, _col.direction, 0, Vector2.up, _ceilingHits, _stats.GrounderDistance, ~_stats.PlayerLayer);
+        
+        //do some stuff for collision during dash so it can pass thourh enemys and kill them
+
 
         // Walls and Ladders
         //var bounds = GetWallDetectionBounds(); // won't be able to detect a wall if we're crouching mid-air
@@ -172,7 +177,7 @@ public class Player1Controller : MonoBehaviour, IPlayer1Controller {
         // Landed on the Ground
         if (!_grounded && _groundHitCount > 0) {
             _grounded = true;
-            //ResetDash();
+            ResetDash();
             ResetJump();
             GroundedChanged?.Invoke(true, Mathf.Abs(_speed.y));
             if (_frameInput.Move.x == 0) _stickyFeet = true;
@@ -268,7 +273,12 @@ public class Player1Controller : MonoBehaviour, IPlayer1Controller {
     protected virtual void HandleBomb() {
         if (!_stats.AllowBomb) return;
         if (_bombToConsume && _bombReady) {
-            BombUsed?.Invoke(_frameInput.Move);
+            if (_frameInput.Move == Vector2.zero) {
+                BombUsed?.Invoke((_lookDir + Vector2.up).normalized);
+            }
+            else {
+                BombUsed?.Invoke(_frameInput.Move.normalized);
+            }
             _bombReady = false;
             _bombCooldownCoroutine = StartCoroutine(BombCooldownCoroutine());
         }
@@ -290,7 +300,12 @@ public class Player1Controller : MonoBehaviour, IPlayer1Controller {
     protected virtual void HandleAnchor() {
         if (!_stats.AllowAnchor) return;
         if (_anchorToConsume && _anchorReady) {
-            AnchorUsed?.Invoke();
+            if (_frameInput.Move == Vector2.zero) {
+                AnchorUsed?.Invoke(_lookDir);
+            }
+            else {
+                AnchorUsed?.Invoke(_frameInput.Move);
+            }
             _anchorReady = false;
             _anchorCooldownCoroutine = StartCoroutine(AnchorCooldownCoroutine());
         }
@@ -306,6 +321,52 @@ public class Player1Controller : MonoBehaviour, IPlayer1Controller {
     #region Dash
 
     private bool _dashToConsume;
+    private bool _canDash;
+    private Vector2 _dashVel;
+    private bool _dashing;
+    private int _startedDashing;
+
+    protected virtual void HandleDash() {
+        if (_dashToConsume && _canDash) {
+            
+            Vector2 dir = new Vector2(_frameInput.Move.x, Mathf.Max(_frameInput.Move.y, 0f)).normalized; //max so that you can't dash down
+            if (dir == Vector2.zero) {
+                dir = _lookDir;
+                //DashingChanged?.Invoke(true, _lookDir);
+                //return;
+            }
+
+            _dashVel = dir * _stats.DashVelocity;
+            _dashing = true;
+            _canDash = false;
+            _startedDashing = _fixedFrame;
+            DashingChanged?.Invoke(true, dir);
+
+            _currentExternalVelocity = Vector2.zero; // Strip external buildup
+        }
+
+        if (_dashing) {
+            _speed = _dashVel;
+            // Cancel when the time is out or we've reached our max safety distance
+            if (_fixedFrame > _startedDashing + _stats.DashDurationFrames) {
+                _dashing = false;
+                DashingChanged?.Invoke(false, Vector2.zero);
+                _speed.y = Mathf.Min(0, _speed.y);
+                _speed.x *= _stats.DashEndHorizontalMultiplier;
+                if (_grounded) ResetDash();
+            }
+        }
+
+        _dashToConsume = false;
+    }
+
+    protected virtual void ResetDash() {
+        _canDash = true;
+    }
+
+
+    /*
+
     private bool _dashReady = true;
     Coroutine _dashCooldownCoroutine;
 
@@ -322,7 +383,7 @@ public class Player1Controller : MonoBehaviour, IPlayer1Controller {
         yield return new WaitForSeconds(_stats.StunAbilityCooldown);
         _dashReady = true;
     }
-
+    */
     #endregion
 
     #region Horizontal
@@ -395,6 +456,19 @@ public class Player1Controller : MonoBehaviour, IPlayer1Controller {
 
     #endregion
 
+    protected virtual void HandleRotation() {
+        if (_rb.velocity.x > 0 /*&& additional statement for when the player is attacking so they do not rotate with attacks spawned*/) {
+            //rotate right
+            transform.eulerAngles = new Vector3(transform.eulerAngles.x, 0, transform.eulerAngles.z);
+            _lookDir = Vector2.right;
+        }
+        else if (_rb.velocity.x < 0) {
+            //rotate left 
+            transform.eulerAngles = new Vector3(transform.eulerAngles.x, 180, transform.eulerAngles.z);
+            _lookDir = Vector2.left;
+        }
+    }
+
     protected virtual void ApplyMovement() {
         if (!_hasControl) return;
 
@@ -417,7 +491,7 @@ public interface IPlayer1Controller {
     public event Action<bool> Jumped; // Is wall jump
     public event Action AirJumped;
     public event Action<Vector2> BombUsed;
-    public event Action AnchorUsed;
+    public event Action<Vector2> AnchorUsed;
     public event Action DashUsed;
     public ScriptableStats PlayerStats { get; }
     public Vector2 Input { get; }

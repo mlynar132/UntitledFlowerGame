@@ -19,6 +19,7 @@ public class Player2Controller : MonoBehaviour, IPlayer2Controller {
     private Player2FrameInput _frameInput;
     private Vector2 _speed;
     private Vector2 _currentExternalVelocity;
+    private Vector2 _lookDir = Vector2.right;
     private int _fixedFrame;
     private bool _hasControl = true;
 
@@ -35,8 +36,8 @@ public class Player2Controller : MonoBehaviour, IPlayer2Controller {
     public event Action BlockAbilityStart;
     public event Action BlockAbilityEnd;
     public event Action<bool, Vector2> VineAbilityChanged;
-    public event Action<Vector2> VineAbilityStart;
-    public event Action VineAbilityEnd;
+    public event Action<Vector2> GrappleAim;
+    public event Action GrappleStart;
     public ScriptableStats PlayerStats => _stats;
     public Vector2 Input => _frameInput.Move;
     public Vector2 Speed => _speed;
@@ -119,6 +120,7 @@ public class Player2Controller : MonoBehaviour, IPlayer2Controller {
         if (_frameInput.StunAbilityDown) _stunAbilityToConsume = true;
         if (_frameInput.BlockAbilityDown) _blockAbilityToConsume = true;//max duration?
         if (_frameInput.VineAbilityDown) _vineAbilityToConsume = true;
+        if (_frameInput.GrappleDown) _grappleToConsume = true;
         //if (_frameInput.AttackDown && _stats.AllowAttacks) _attackToConsume = true;
     }
     protected void FixedUpdate() {
@@ -131,7 +133,8 @@ public class Player2Controller : MonoBehaviour, IPlayer2Controller {
         HandleJump();
         HandleStunAbility();
         HandleBlockAbility();
-        HandlevineAbility();
+        HandleVineAbility();
+        HandleGrapple();
 
         HandleHorizontal();
         HandleVertical();
@@ -344,14 +347,12 @@ public class Player2Controller : MonoBehaviour, IPlayer2Controller {
     private bool _vineAbilityReady = true;
     Coroutine _vineAbilityCooldownCoroutine;
 
-    protected virtual void HandlevineAbility() {
+    protected virtual void HandleVineAbility() {
         if (!_stats.AllowVineAbility) return;
 
         if (_vineAbilityActive && !_endedVineAbility && !_frameInput.VineAbilityHeld) _endedVineAbility = true; // End detection
 
         if (_vineAbilityToConsume && _vineAbilityReady) {
-                Debug.Log(_vineAbilityToConsume + " " + _vineAbilityReady);
-            Debug.Log("ASD");
             VineAbilityChanged?.Invoke(true, _frameInput.Move);
             _vineAbilityActive = true;
             _vineAbilityReady = false;
@@ -375,6 +376,34 @@ public class Player2Controller : MonoBehaviour, IPlayer2Controller {
         yield return new WaitForSeconds(_stats.VineAbilityCooldown);
         _vineAbilityReady = true;
     }
+    #endregion
+
+    #region Grapple
+
+    private bool _grappleToConsume;
+    private bool _grappleReady = true;
+    Coroutine _grappleCooldownCoroutine;
+
+    protected virtual void HandleGrapple() {
+        if (!_stats.AllowGrapple) return;
+        if (_frameInput.Move == Vector2.zero) {
+            GrappleAim?.Invoke(_lookDir);
+        }
+        else {
+            GrappleAim?.Invoke(_frameInput.Move);
+        }
+        if (_grappleToConsume && _grappleReady) {
+            GrappleStart?.Invoke();
+            _grappleReady = false;
+            _grappleCooldownCoroutine = StartCoroutine(GrappleCooldownCoroutine());
+        }
+        _grappleToConsume = false;
+    }
+    IEnumerator GrappleCooldownCoroutine() {
+        yield return new WaitForSeconds(_stats.GrappleCooldown);
+        _grappleReady = true;
+    }
+
     #endregion
 
     #region Horizontal
@@ -452,10 +481,12 @@ public class Player2Controller : MonoBehaviour, IPlayer2Controller {
         if (_rb.velocity.x > 0 /*&& additional statement for when the player is attacking so they do not rotate with attacks spawned*/) {
             //rotate right
             transform.eulerAngles = new Vector3(transform.eulerAngles.x, 0, transform.eulerAngles.z);
+            _lookDir = Vector2.right;
         }
         else if (_rb.velocity.x < 0) {
             //rotate left 
             transform.eulerAngles = new Vector3(transform.eulerAngles.x, 180, transform.eulerAngles.z);
+            _lookDir = Vector2.left;
         }
     }
     protected virtual void ApplyMovement() {
@@ -485,9 +516,9 @@ public interface IPlayer2Controller {
     public event Action StunAbility;
     public event Action BlockAbilityStart;
     public event Action BlockAbilityEnd;
-    public event Action<bool, Vector2> VineAbilityChanged;
-    public event Action<Vector2> VineAbilityStart;
-    public event Action VineAbilityEnd;
+    public event Action<bool, Vector2> VineAbilityChanged; // true = started, false = ended, vector2 dir
+    public event Action<Vector2> GrappleAim;
+    public event Action GrappleStart;
     public ScriptableStats PlayerStats { get; }
     public Vector2 Input { get; }
     public Vector2 Speed { get; }

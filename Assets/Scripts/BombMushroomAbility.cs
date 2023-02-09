@@ -59,13 +59,13 @@ public class BombMushroomAbility : MonoBehaviour {
     //  public void OnAim(InputValue value) => _rotateDir = -value.Get<Vector2>().x;
 
     private void ThrowMushroom(Vector2 dir) {
-        Debug.Log("DAS");
+       // Debug.Log("DAS");
         //  _cooldown = true;
         // _cooldownEvent.ResetValue();
 
         ExplodingObject explodingObject = Instantiate(_explodingObject, transform.position + new Vector3(0.75f,0.75f,0) , Quaternion.identity);
-        Debug.Log("DAS2");
+       // Debug.Log("DAS2");
         //Vector3 force = new Vector3(dir.x * _xForce, dir.y * _yForce, 0); Debug.Log("DAS3");
-        explodingObject.AddForce(new Vector2(dir.x * _xForce, dir.y * _yForce)); Debug.Log("DAS4");
+        explodingObject.AddForce(new Vector2(dir.x * _xForce, dir.y * _yForce)); //Debug.Log("DAS4");
     }
 }

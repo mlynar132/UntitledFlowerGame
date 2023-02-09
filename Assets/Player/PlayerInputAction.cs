@@ -302,6 +302,15 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Grapple"",
+                    ""type"": ""Button"",
+                    ""id"": ""5c52995d-34f7-4ebf-92a7-97258e7140c8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Move"",
                     ""type"": ""Value"",
                     ""id"": ""94d7ace5-624b-4dee-84cb-8c1016e83c17"",
@@ -325,15 +334,6 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""id"": ""0932f512-f4b9-4a48-a62e-70fb739dfae3"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""Aim"",
-                    ""type"": ""Value"",
-                    ""id"": ""d7c86a77-5c24-486e-8d11-2d8d44ba0fa0"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": ""NormalizeVector2"",
                     ""interactions"": """",
                     ""initialStateCheck"": true
                 }
@@ -484,17 +484,6 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""36c9667f-859e-475d-bfbc-db4a56fa0432"",
-                    ""path"": ""<Gamepad>/rightStick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Aim"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""44b082bf-b421-4c3c-b9fc-88aae8477011"",
                     ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": """",
@@ -512,6 +501,17 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
                     ""action"": ""VineAbility"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""12af195c-e059-453e-a181-ace2677f46c4"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Grapple"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -562,10 +562,10 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         m_Player2_BlockAbility = m_Player2.FindAction("BlockAbility", throwIfNotFound: true);
         m_Player2_StunAbility = m_Player2.FindAction("StunAbility", throwIfNotFound: true);
         m_Player2_VineAbility = m_Player2.FindAction("VineAbility", throwIfNotFound: true);
+        m_Player2_Grapple = m_Player2.FindAction("Grapple", throwIfNotFound: true);
         m_Player2_Move = m_Player2.FindAction("Move", throwIfNotFound: true);
         m_Player2_Jump = m_Player2.FindAction("Jump", throwIfNotFound: true);
         m_Player2_Swing = m_Player2.FindAction("Swing", throwIfNotFound: true);
-        m_Player2_Aim = m_Player2.FindAction("Aim", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -709,10 +709,10 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player2_BlockAbility;
     private readonly InputAction m_Player2_StunAbility;
     private readonly InputAction m_Player2_VineAbility;
+    private readonly InputAction m_Player2_Grapple;
     private readonly InputAction m_Player2_Move;
     private readonly InputAction m_Player2_Jump;
     private readonly InputAction m_Player2_Swing;
-    private readonly InputAction m_Player2_Aim;
     public struct Player2Actions
     {
         private @PlayerInputAction m_Wrapper;
@@ -720,10 +720,10 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         public InputAction @BlockAbility => m_Wrapper.m_Player2_BlockAbility;
         public InputAction @StunAbility => m_Wrapper.m_Player2_StunAbility;
         public InputAction @VineAbility => m_Wrapper.m_Player2_VineAbility;
+        public InputAction @Grapple => m_Wrapper.m_Player2_Grapple;
         public InputAction @Move => m_Wrapper.m_Player2_Move;
         public InputAction @Jump => m_Wrapper.m_Player2_Jump;
         public InputAction @Swing => m_Wrapper.m_Player2_Swing;
-        public InputAction @Aim => m_Wrapper.m_Player2_Aim;
         public InputActionMap Get() { return m_Wrapper.m_Player2; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -742,6 +742,9 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @VineAbility.started -= m_Wrapper.m_Player2ActionsCallbackInterface.OnVineAbility;
                 @VineAbility.performed -= m_Wrapper.m_Player2ActionsCallbackInterface.OnVineAbility;
                 @VineAbility.canceled -= m_Wrapper.m_Player2ActionsCallbackInterface.OnVineAbility;
+                @Grapple.started -= m_Wrapper.m_Player2ActionsCallbackInterface.OnGrapple;
+                @Grapple.performed -= m_Wrapper.m_Player2ActionsCallbackInterface.OnGrapple;
+                @Grapple.canceled -= m_Wrapper.m_Player2ActionsCallbackInterface.OnGrapple;
                 @Move.started -= m_Wrapper.m_Player2ActionsCallbackInterface.OnMove;
                 @Move.performed -= m_Wrapper.m_Player2ActionsCallbackInterface.OnMove;
                 @Move.canceled -= m_Wrapper.m_Player2ActionsCallbackInterface.OnMove;
@@ -751,9 +754,6 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @Swing.started -= m_Wrapper.m_Player2ActionsCallbackInterface.OnSwing;
                 @Swing.performed -= m_Wrapper.m_Player2ActionsCallbackInterface.OnSwing;
                 @Swing.canceled -= m_Wrapper.m_Player2ActionsCallbackInterface.OnSwing;
-                @Aim.started -= m_Wrapper.m_Player2ActionsCallbackInterface.OnAim;
-                @Aim.performed -= m_Wrapper.m_Player2ActionsCallbackInterface.OnAim;
-                @Aim.canceled -= m_Wrapper.m_Player2ActionsCallbackInterface.OnAim;
             }
             m_Wrapper.m_Player2ActionsCallbackInterface = instance;
             if (instance != null)
@@ -767,6 +767,9 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @VineAbility.started += instance.OnVineAbility;
                 @VineAbility.performed += instance.OnVineAbility;
                 @VineAbility.canceled += instance.OnVineAbility;
+                @Grapple.started += instance.OnGrapple;
+                @Grapple.performed += instance.OnGrapple;
+                @Grapple.canceled += instance.OnGrapple;
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
@@ -776,9 +779,6 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @Swing.started += instance.OnSwing;
                 @Swing.performed += instance.OnSwing;
                 @Swing.canceled += instance.OnSwing;
-                @Aim.started += instance.OnAim;
-                @Aim.performed += instance.OnAim;
-                @Aim.canceled += instance.OnAim;
             }
         }
     }
@@ -816,9 +816,9 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         void OnBlockAbility(InputAction.CallbackContext context);
         void OnStunAbility(InputAction.CallbackContext context);
         void OnVineAbility(InputAction.CallbackContext context);
+        void OnGrapple(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnSwing(InputAction.CallbackContext context);
-        void OnAim(InputAction.CallbackContext context);
     }
 }

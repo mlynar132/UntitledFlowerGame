@@ -10,12 +10,22 @@ public class Grapple : MonoBehaviour
     [SerializeField] private LayerMask _anchorMask;
     [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private GameObject _selectorObject;
-    [SerializeField] private LineRenderer _line;
+    //[SerializeField] private LineRenderer _line;
 
     private Vector2 _selector;
     private Vector2 _aim;
     private RaycastHit2D _lastHit;
 
+    [SerializeField] private Player2Controller _p2;
+    private IPlayer2Controller _playerInterface;
+    private void Awake() {
+        _playerInterface = GetComponent<IPlayer2Controller>();
+    }
+    private void Start() {
+        _playerInterface.GrappleAim += Aim;
+        _playerInterface.GrappleStart += Pull;
+        Physics2D.queriesStartInColliders = false;
+    }
 
     private void Update( )
     {
@@ -23,28 +33,26 @@ public class Grapple : MonoBehaviour
 
         _selectorObject.transform.position = _selector;
 
-        _line.SetPosition( 0, transform.position );
+        //_line.SetPosition( 0, transform.position );
 
         if ( _lastHit )
         {
-            _line.SetPosition( 1, _lastHit.point );
+          //  _line.SetPosition( 1, _lastHit.point );
         }
         else
         {
-            _line.SetPosition( 1, ( Vector3 )( _aim * _range ) + transform.position );
+ //           _line.SetPosition( 1, ( Vector3 )( _aim * _range ) + transform.position );
         }
     }
 
 
-    private void Select( )
-    {
+    private void Select( ) {
         if ( _aim != Vector2.zero )
         {
-            var position = transform.position;
+            var position = transform.position + new Vector3(0,0.5f,0);
+            
             _lastHit = Physics2D.Raycast( position, _aim, _range, _collisionMask );
-
-            if ( _lastHit )
-            {
+            if ( _lastHit ) {
                 Vector3 point = _lastHit.point;
 
                 point.z = -1;
@@ -53,8 +61,7 @@ public class Grapple : MonoBehaviour
                 var minDist = float.PositiveInfinity;
                 Vector2 target = Vector2.zero;
 
-                foreach ( var hit2 in hits )
-                {
+                foreach ( var hit2 in hits ) {
                     var distance = Vector2.Distance( hit2.point, hit2.transform.position );
 
                     if ( distance < minDist )
@@ -68,22 +75,26 @@ public class Grapple : MonoBehaviour
                 return;
             }
         }
+        else {
+            _lastHit = new RaycastHit2D();
+        }
 
         _selector = Vector2.zero;
     }
 
 
-    private void Pull( Vector2 destination )
+    private void Pull()
     {
-        if ( destination == Vector2.zero )
+        //
+        if ( _selector == Vector2.zero )
         {
             return; // Ignore zero
         }
-
+        //_p2.TakeAwayControl(false);
         Vector2 position = transform.position;
-        var xDis = Mathf.Abs( destination.x - position.x );
-        var yDis = Mathf.Abs( destination.y - position.y );
-        var direction = ( destination - position ).normalized;
+        var xDis = Mathf.Abs( _selector.x - position.x );
+        var yDis = Mathf.Abs( _selector.y - position.y );
+        var direction = ( _selector - position ).normalized;
 
         var velocity = Vector2.zero;
         velocity.x = direction.x * ( Mathf.Sqrt( xDis ) * _force );
@@ -100,22 +111,25 @@ public class Grapple : MonoBehaviour
         {
             velocity.y += oldVelocity.y;
         }
-
-        _rb.velocity = velocity;
+        _p2.ApplyVelocity(velocity, PlayerForce.Decay);
+        //_rb.velocity = velocity;
     }
 
 
     // Controlls
-    public void Aim( InputAction.CallbackContext context )
+    public void Aim(Vector2 dir )
     {
-        _aim = context.ReadValue<Vector2>();
+        _aim = dir;
     }
 
-    public void Grab( InputAction.CallbackContext context )
+    /*public void Grab( InputAction.CallbackContext context )
     {
         if ( context.ReadValueAsButton() && context.started )
         {
             Pull( _selector );
         }
-    }
+        if (context.canceled) {
+          //  _p2.ReturnControl();
+        }
+    }*/
 }

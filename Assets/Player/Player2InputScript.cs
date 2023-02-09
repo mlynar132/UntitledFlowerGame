@@ -9,7 +9,7 @@ public class Player2InputScript : MonoBehaviour {
     //private PlayerInputAction _playerInputAction;
     //private InputAction _move, _jump, _block, _attack, _vine;
     private Vector2 _move;
-    private bool _jumpDown, _jumpHeld, _stunDown, _blockDown, _blockHeld, _vineDown, _vineHeld;
+    private bool _jumpDown, _jumpHeld, _stunDown, _blockDown, _blockHeld, _vineDown, _vineHeld, _grappleDown, _grappleHeld;
     private void Awake() {
         /*_playerInputAction = new PlayerInputAction();
         _move = _playerInputAction.Player2.Move;
@@ -37,6 +37,7 @@ public class Player2InputScript : MonoBehaviour {
         //_blockHeld = false;
         _vineDown = false;
         //_vineHeld = false;
+        _grappleDown = false;
     }
     private Player2FrameInput GartherFrameInput() {
         return new Player2FrameInput {
@@ -47,7 +48,9 @@ public class Player2InputScript : MonoBehaviour {
             BlockAbilityDown = _blockDown,
             BlockAbilityHeld = _blockHeld,
             VineAbilityDown = _vineDown,
-            VineAbilityHeld = _vineHeld
+            VineAbilityHeld = _vineHeld,
+            GrappleDown = _grappleDown,
+            GrappleHeld = _grappleHeld
 
             /*Move = _move.ReadValue<Vector2>(),
             JumpDown = _jump.WasPerformedThisFrame(),
@@ -94,6 +97,15 @@ public class Player2InputScript : MonoBehaviour {
             _vineHeld = false;
         }
     }
+    public void GrappleInput(InputAction.CallbackContext context) {
+        if (context.started) {
+            _grappleDown = true;
+            _grappleHeld = true;
+        }
+        else if (context.canceled) {
+            _grappleHeld = false;
+        }
+    }
 }
 public struct Player2FrameInput {
     public Vector2 Move;
@@ -104,4 +116,6 @@ public struct Player2FrameInput {
     public bool BlockAbilityHeld;
     public bool VineAbilityDown;
     public bool VineAbilityHeld;
+    public bool GrappleDown;
+    public bool GrappleHeld;//maybe we can do the early end like with jump
 }

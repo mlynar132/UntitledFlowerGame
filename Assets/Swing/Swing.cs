@@ -23,10 +23,9 @@ public class Swing : MonoBehaviour {
         if (_ropeObject == null) {
             _ropeObject = Instantiate(_ropePrefab);
         }
+        _rope = _ropeObject.GetComponent<Rope>();
 
-        _ropeObject.GetComponent<Rope>().BindRB(gameObject.GetComponent<Rigidbody2D>());
-
-        _rope = _ropeObject.GetComponent<Rope>(); // this wassn't here 
+        _rope.BindRB(gameObject.GetComponent<Rigidbody2D>());
 
         _ropeObject.SetActive(false);
     }
@@ -36,7 +35,8 @@ public class Swing : MonoBehaviour {
     }
     public void Throw(bool state, Vector2 dir) {
         if (state) {
-            var position = transform.position;
+            var position = transform.position + new Vector3(0, 0.5f, 0);
+            Debug.Log(position);
             if (_rope.Grapple(position, dir, _range, true) != Vector2.zero) {
                 _ropeObject.SetActive(true);
             }
