@@ -9,8 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1201158424289539875}
-  - component: {fileID: 1201158424289539879}
-  - component: {fileID: 1201158424289539872}
+  - component: {fileID: 1530252134765293404}
   - component: {fileID: 7462321789884112781}
   - component: {fileID: 7834705377520033062}
   - component: {fileID: 8296203504687640685}
@@ -39,7 +38,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1201158424289539879
+--- !u!114 &1530252134765293404
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -48,27 +47,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1201158424289539878}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2641e2f1967ba44c84333606b5af7e6, type: 3}
+  m_Script: {fileID: 11500000, guid: d0a48d8f7f9dcbe45a41de96d0da1c0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gameObject: {fileID: 842682377746573783, guid: 7b2b39d1f2b5f89448b769b88c1e308a, type: 3}
-  _playerMovement: {fileID: 0}
-  _player: {fileID: 1201158424289539878}
---- !u!114 &1201158424289539872
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1201158424289539878}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73f99207068fc3a4f82697e3dd2b6aad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _weapon: {fileID: 503670177896316219, guid: 4ef61c795d894354bacd894513867b42, type: 3}
-  _player: {fileID: 1201158424289539878}
-  _attackCooldown: 2
+  _cooldownEvent: {fileID: 11400000, guid: ea915cf77c7beb140a5036c00e56d39a, type: 2}
+  _throwLocation: {fileID: 0}
+  _explodingObject: {fileID: 4588986652033667497, guid: 7e02bc28f22280d48906b9598d5e9964, type: 3}
+  _aim: {fileID: 0}
+  _xForce: 6
+  _yForce: 4
+  _maxUpAngle: 80
+  _maxDownAngle: 20
+  _rotationSpeed: 500
 --- !u!114 &7462321789884112781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,7 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Actions: {fileID: -944628639613478452, guid: 17441a90f025fa149a3a1d8a3fe93b2d, type: 3}
-  m_NotificationBehavior: 3
+  m_NotificationBehavior: 2
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:
@@ -140,8 +130,104 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 5ce5aa4a-190c-486d-877e-deec8874080a
     m_ActionName: Player2/Jump[/XInputControllerWindows/buttonSouth,/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7834705377520033062}
+        m_TargetAssemblyTypeName: Player1InputScript, Assembly-CSharp
+        m_MethodName: DashnInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: a6fe707c-b6e7-407f-adce-af99f48887ac
+    m_ActionName: Player1/Dash[/XInputControllerWindows/buttonEast,/Keyboard/capsLock]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7834705377520033062}
+        m_TargetAssemblyTypeName: Player1InputScript, Assembly-CSharp
+        m_MethodName: BombInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 5a642a6c-9410-46f9-8fbf-a57ad0ceb44b
+    m_ActionName: Player1/Bomb[/XInputControllerWindows/buttonWest,/Keyboard/shift]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7834705377520033062}
+        m_TargetAssemblyTypeName: Player1InputScript, Assembly-CSharp
+        m_MethodName: AnchorInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: ccff2a03-e072-4e7c-b7f8-2fe5fd301a70
+    m_ActionName: Player1/Anchor[/XInputControllerWindows/rightTrigger,/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7834705377520033062}
+        m_TargetAssemblyTypeName: Player1InputScript, Assembly-CSharp
+        m_MethodName: MoveInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 966bf4b6-04c7-4c9e-a72f-3a6d89f17982
+    m_ActionName: Player1/Move[/XInputControllerWindows/leftStick,/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7834705377520033062}
+        m_TargetAssemblyTypeName: Player1InputScript, Assembly-CSharp
+        m_MethodName: JumpInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 81926e8d-665d-40e9-b00a-ae77e6abb051
+    m_ActionName: Player1/Jump[/XInputControllerWindows/buttonSouth,/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 96f228f5-c418-4d15-9b6a-2e50164e8912
+    m_ActionName: Player1/Swing[/XInputControllerWindows/buttonNorth]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7bd51c52-2ed7-41d0-8c41-4c74f4fd0e98
+    m_ActionName: Player1/Aim[/XInputControllerWindows/rightStick]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0932f512-f4b9-4a48-a62e-70fb739dfae3
+    m_ActionName: Player2/Swing[/XInputControllerWindows/buttonNorth]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: d7c86a77-5c24-486e-8d11-2d8d44ba0fa0
+    m_ActionName: Player2/Aim[/XInputControllerWindows/rightStick]
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: Keyboard and Mouse
+  m_DefaultControlScheme: Controller
   m_DefaultActionMap: Player1
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}

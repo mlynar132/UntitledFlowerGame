@@ -11,7 +11,7 @@ public class Darkness : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.CompareTag("Player"))
+        if(other.gameObject.layer == 6)
         {
             if(_inDarkness && !_bothPlayersInDarkness)
             {
@@ -27,7 +27,7 @@ public class Darkness : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (other.gameObject.layer == 6)
         {
             if (_bothPlayersInDarkness)
             {

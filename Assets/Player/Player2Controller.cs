@@ -11,7 +11,7 @@ public class Player2Controller : MonoBehaviour, IPlayer2Controller {
     #region internal
 
     private Rigidbody2D _rb;
-    [SerializeField ]private GameObject _visuals;
+    [SerializeField] private GameObject _visuals;
     [SerializeField] private CapsuleCollider2D _col;
     private Player2InputScript _input = null;
     private bool _cachedTriggerSetting;
@@ -34,7 +34,8 @@ public class Player2Controller : MonoBehaviour, IPlayer2Controller {
     public event Action StunAbility;
     public event Action BlockAbilityStart;
     public event Action BlockAbilityEnd;
-    public event Action VineAbilityStart;
+    public event Action<bool, Vector2> VineAbilityChanged;
+    public event Action<Vector2> VineAbilityStart;
     public event Action VineAbilityEnd;
     public ScriptableStats PlayerStats => _stats;
     public Vector2 Input => _frameInput.Move;
@@ -42,7 +43,6 @@ public class Player2Controller : MonoBehaviour, IPlayer2Controller {
     public Vector2 Velocity => _rb.velocity;
     public Vector2 GroundNormal { get; private set; }
     public int WallDirection { get; private set; }
-
     public void ApplyVelocity(Vector2 vel, PlayerForce forceType) {
         if (forceType == PlayerForce.Burst) {
             _speed += vel;
@@ -117,8 +117,8 @@ public class Player2Controller : MonoBehaviour, IPlayer2Controller {
 
         //if (_frameInput.DashDown && _stats.AllowDash) _dashToConsume = true;
         if (_frameInput.StunAbilityDown) _stunAbilityToConsume = true;
-
         if (_frameInput.BlockAbilityDown) _blockAbilityToConsume = true;//max duration?
+        if (_frameInput.VineAbilityDown) _vineAbilityToConsume = true;
         //if (_frameInput.AttackDown && _stats.AllowAttacks) _attackToConsume = true;
     }
     protected void FixedUpdate() {
@@ -131,6 +131,7 @@ public class Player2Controller : MonoBehaviour, IPlayer2Controller {
         HandleJump();
         HandleStunAbility();
         HandleBlockAbility();
+        HandlevineAbility();
 
         HandleHorizontal();
         HandleVertical();
@@ -318,12 +319,13 @@ public class Player2Controller : MonoBehaviour, IPlayer2Controller {
         if (_blockAbilityToConsume && _blockAbilityReady) {
             BlockAbilityStart?.Invoke();
             _blockAbilityActive = true;
+            _blockAbilityReady = false;
         }
         if (_endedBlockAbility) {
             BlockAbilityEnd?.Invoke();
             _blockAbilityActive = false;
             _endedBlockAbility = false;
-            _blockAbilityReady = false;
+
             _blockAbilityCooldownCoroutine = StartCoroutine(BlockAbilityCooldownCoroutine());
         }
         _blockAbilityToConsume = false;
@@ -348,15 +350,24 @@ public class Player2Controller : MonoBehaviour, IPlayer2Controller {
         if (_vineAbilityActive && !_endedVineAbility && !_frameInput.VineAbilityHeld) _endedVineAbility = true; // End detection
 
         if (_vineAbilityToConsume && _vineAbilityReady) {
-            VineAbilityStart?.Invoke();
+                Debug.Log(_vineAbilityToConsume + " " + _vineAbilityReady);
+            Debug.Log("ASD");
+            VineAbilityChanged?.Invoke(true, _frameInput.Move);
             _vineAbilityActive = true;
+            _vineAbilityReady = false;
+            //make it feel nice to swing            
+            TakeAwayControl(false);
+            _rb.gravityScale = 10;
         }
-        if (_endedBlockAbility) {
-            VineAbilityEnd?.Invoke();
+        if (_endedVineAbility) {
+            VineAbilityChanged?.Invoke(false, _frameInput.Move);
+            //VineAbilityEnd?.Invoke();
             _vineAbilityActive = false;
             _endedVineAbility = false;
-            _vineAbilityReady = false;
             _vineAbilityCooldownCoroutine = StartCoroutine(vineAbilityCooldownCoroutine());
+            // make it feel nice to swing
+            ReturnControl();
+            _rb.gravityScale = 1;
         }
         _vineAbilityToConsume = false;
     }
@@ -474,7 +485,8 @@ public interface IPlayer2Controller {
     public event Action StunAbility;
     public event Action BlockAbilityStart;
     public event Action BlockAbilityEnd;
-    public event Action VineAbilityStart;
+    public event Action<bool, Vector2> VineAbilityChanged;
+    public event Action<Vector2> VineAbilityStart;
     public event Action VineAbilityEnd;
     public ScriptableStats PlayerStats { get; }
     public Vector2 Input { get; }

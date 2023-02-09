@@ -6,7 +6,7 @@
             "id": "71232487-cd7a-400f-8e66-10d2ef43142d",
             "actions": [
                 {
-                    "name": "Ability1",
+                    "name": "Dash",
                     "type": "Button",
                     "id": "a6fe707c-b6e7-407f-adce-af99f48887ac",
                     "expectedControlType": "Button",
@@ -15,7 +15,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Ability2",
+                    "name": "Bomb",
                     "type": "Button",
                     "id": "5a642a6c-9410-46f9-8fbf-a57ad0ceb44b",
                     "expectedControlType": "Button",
@@ -24,7 +24,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Ability3",
+                    "name": "Anchor",
                     "type": "Button",
                     "id": "ccff2a03-e072-4e7c-b7f8-2fe5fd301a70",
                     "expectedControlType": "Button",
@@ -77,7 +77,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",
-                    "action": "Ability1",
+                    "action": "Dash",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -88,7 +88,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard and Mouse",
-                    "action": "Ability1",
+                    "action": "Dash",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -99,7 +99,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",
-                    "action": "Ability2",
+                    "action": "Bomb",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -176,7 +176,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard and Mouse",
-                    "action": "Ability2",
+                    "action": "Bomb",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -187,7 +187,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",
-                    "action": "Ability3",
+                    "action": "Anchor",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -198,7 +198,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard and Mouse",
-                    "action": "Ability3",
+                    "action": "Anchor",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

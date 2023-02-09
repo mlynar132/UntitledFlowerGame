@@ -80,12 +80,12 @@ public class ScriptableStats : ScriptableObject {
     public int JumpBufferFrames = 7;
 
     [Header("Stun Ability")]
-    [Tooltip("Allows Block Ability")]
+    [Tooltip("Allows Stun Ability")]
     public bool AllowStunAbility = true;
-
+    //if (AllowStunAbility){
     [Tooltip("Cooldown in seconds")]
     public float StunAbilityCooldown = 1;
-
+    //}
     [Header("Block Ability")]
     [Tooltip("Allows Block Ability")]
     public bool AllowBlockAbility = true;
@@ -94,8 +94,14 @@ public class ScriptableStats : ScriptableObject {
     public float BlockAbilityCooldown = 3;
 
     [Header("Vine Ability")]
-    [Tooltip("Allows Block Ability")]
+    [Tooltip("Allows Vine Ability")]
     public bool AllowVineAbility = true;
+
+    [Tooltip("Gravity scale while swinging")]
+    public float GravityScaleWhileSwinging = 5;
+
+    [Tooltip("movement impact scale while swinging")]
+    public float MovementImpactScaleWhileSwinging = 5;
 
     [Tooltip("Cooldown in seconds")]
     public float VineAbilityCooldown = 3;
@@ -103,11 +109,26 @@ public class ScriptableStats : ScriptableObject {
     [Tooltip("Max range")]
     public float VineAbilityMaxRange = 3;
 
+    [Header("Bomb")]
+    [Tooltip("Allows Bomb")]
+    public bool AllowBomb = true;
 
+    [Tooltip("Cooldown in seconds")]
+    public float BombCooldown = 3;
 
+    [Header("Anchor")]
+    [Tooltip("Allows Anchor")]
+    public bool AllowAnchor = true;
 
+    [Tooltip("Cooldown in seconds")]
+    public float AnchorCooldown = 3;
 
+    [Header("Dash")]
+    [Tooltip("Allows Dash")]
+    public bool AllowDash = true;
 
+    [Tooltip("Cooldown in seconds")]
+    public float DashCooldown = 3;
 
 
     /*

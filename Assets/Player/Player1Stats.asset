@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   SnapInput: 1
   VerticalDeadzoneThreshold: 0.3
   HorizontalDeadzoneThreshold: 0.1
@@ -25,11 +25,26 @@ MonoBehaviour:
   GroundingForce: -1.5
   StickyFeetMultiplier: 2
   GrounderDistance: 0.05
-  MaxAirJumps: 1
+  MaxAirJumps: 0
   JumpPower: 36
   MaxFallSpeed: 40
   FallAcceleration: 110
   JumpEndEarlyGravityModifier: 3
   CoyoteFrames: 7
   JumpBufferFrames: 7
+  AllowStunAbility: 0
+  StunAbilityCooldown: 1
+  AllowBlockAbility: 0
+  BlockAbilityCooldown: 3
+  AllowVineAbility: 0
+  GravityScaleWhileSwinging: 5
+  MovementImpactScaleWhileSwinging: 5
+  VineAbilityCooldown: 3
+  VineAbilityMaxRange: 3
+  AllowBomb: 1
+  BombCooldown: 3
+  AllowAnchor: 1
+  AnchorCooldown: 3
+  AllowDash: 1
+  DashCooldown: 3
   ExternalVelocityDecay: 100

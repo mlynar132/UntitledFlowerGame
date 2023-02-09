@@ -11,7 +11,8 @@ public class PlayerHealthManager : MonoBehaviour
     [SerializeField] private BoolEvent _inDarknessEvent;
     [SerializeField] private FloatEvent _playerDarknessEvent;
     [SerializeField] private BoolEvent _oxygenLossEvent;
-    [SerializeField] private IntEvent _playerHealthEvent;
+    [SerializeField] private IntEvent _player1HealthEvent;
+    [SerializeField] private IntEvent _player2HealthEvent;
 
     [Header("Stats")]
     [SerializeField] private float _darknessTimerLength = 10;
@@ -19,11 +20,13 @@ public class PlayerHealthManager : MonoBehaviour
     [SerializeField] private GameObject _player1;
     [SerializeField] private GameObject _player2;
 
-    private void Start()
+
+    private void Awake()
     {
         _playerDarknessEvent.ResetValue();
         _inDarknessEvent.ResetValue();
-        _playerHealthEvent.ResetValue();
+        _player1HealthEvent.ResetValue();
+        _player2HealthEvent.ResetValue();
     }
 
     private void PlayerDied()
