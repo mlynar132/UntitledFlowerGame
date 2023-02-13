@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Mat Player.unity
-    guid: 8b8b31da1384139469a60bc47d52af1e
+    path: Assets/Scenes/Menu_Screen.unity
+    guid: 39b9f13db5cbf4d4389bbccd3dee66fa
+  - enabled: 1
+    path: Assets/Scenes/Main Scene_Sanya.unity
+    guid: 9a34e0b66f5327e45ba2d3fb32af7af3
   m_configObjects: {}
