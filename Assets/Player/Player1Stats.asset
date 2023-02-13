@@ -15,8 +15,8 @@ MonoBehaviour:
   PlayerLayer:
     serializedVersion: 2
     m_Bits: 64
-  SnapInput: 1
-  VerticalDeadzoneThreshold: 0.3
+  SnapInput: 0
+  VerticalDeadzoneThreshold: 0.01
   HorizontalDeadzoneThreshold: 0.1
   MaxSpeed: 14
   Acceleration: 120
@@ -42,9 +42,12 @@ MonoBehaviour:
   VineAbilityCooldown: 3
   VineAbilityMaxRange: 3
   AllowBomb: 1
-  BombCooldown: 3
+  BombCooldown: 0
   AllowAnchor: 1
-  AnchorCooldown: 3
+  AnchorCooldown: 1
   AllowDash: 1
-  DashCooldown: 3
+  DashCooldown: 0
+  DashVelocity: 50
+  DashDurationFrames: 5
+  DashEndHorizontalMultiplier: 0.25
   ExternalVelocityDecay: 100

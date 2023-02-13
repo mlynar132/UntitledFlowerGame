@@ -9,7 +9,7 @@ public class PlayerSpawnManager : MonoBehaviour
     [SerializeField] private PlayerInputManager _playerInputManager;
     void OnPlayerJoined(PlayerInput playerInput)
     {
-        Debug.Log("ASD:" + playerInput.playerIndex);
+        Debug.Log("ASD:" + playerInput.playerIndex + " "+ playerInput.currentControlScheme);
         if (playerInput.playerIndex == 0) {
             _playerInputManager.playerPrefab = _player1Prefab;
         }

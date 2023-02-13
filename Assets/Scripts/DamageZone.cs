@@ -43,6 +43,12 @@ public class DamageZone : MonoBehaviour
                                 if(_returnPoints.ContainsKey(collision.gameObject))
                                 {
                                     collision.transform.position = _returnPoints[collision.gameObject];
+
+                                    if(collision.TryGetComponent(out PlayerMovement player))
+                                    {
+                                        player.StopMovement();
+                                        player.StartMovement();
+                                    }
                                 }
                             }
                         }

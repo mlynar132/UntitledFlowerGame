@@ -109,6 +109,13 @@ public class ScriptableStats : ScriptableObject {
     [Tooltip("Max range")]
     public float VineAbilityMaxRange = 3;
 
+    [Header("Grapple")]
+    [Tooltip("Allows Grapple")]
+    public bool AllowGrapple = true;
+
+    [Tooltip("Cooldown in seconds")]
+    public float GrappleCooldown = 3;
+
     [Header("Bomb")]
     [Tooltip("Allows Bomb")]
     public bool AllowBomb = true;
@@ -129,6 +136,15 @@ public class ScriptableStats : ScriptableObject {
 
     [Tooltip("Cooldown in seconds")]
     public float DashCooldown = 3;
+
+    [Tooltip("Dash speed")]
+    public float DashVelocity = 50;
+
+    [Tooltip("Dash duration in fixed frames")]
+    public float DashDurationFrames = 5;
+
+    [Tooltip("The horizontal speed retained when dash has completed")]
+    public float DashEndHorizontalMultiplier = 0.25f;
 
 
     /*

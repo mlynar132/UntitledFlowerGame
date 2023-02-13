@@ -280,6 +280,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Grapple",
+                    "type": "Button",
+                    "id": "5c52995d-34f7-4ebf-92a7-97258e7140c8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Move",
                     "type": "Value",
                     "id": "94d7ace5-624b-4dee-84cb-8c1016e83c17",
@@ -303,15 +312,6 @@
                     "id": "0932f512-f4b9-4a48-a62e-70fb739dfae3",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
-                    "name": "Aim",
-                    "type": "Value",
-                    "id": "d7c86a77-5c24-486e-8d11-2d8d44ba0fa0",
-                    "expectedControlType": "Vector2",
-                    "processors": "NormalizeVector2",
                     "interactions": "",
                     "initialStateCheck": true
                 }
@@ -462,17 +462,6 @@
                 },
                 {
                     "name": "",
-                    "id": "36c9667f-859e-475d-bfbc-db4a56fa0432",
-                    "path": "<Gamepad>/rightStick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Aim",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "44b082bf-b421-4c3c-b9fc-88aae8477011",
                     "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
@@ -490,6 +479,17 @@
                     "processors": "",
                     "groups": "Keyboard and Mouse",
                     "action": "VineAbility",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "12af195c-e059-453e-a181-ace2677f46c4",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "Grapple",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
