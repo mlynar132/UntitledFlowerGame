@@ -285,7 +285,7 @@ public class Player1Controller : MonoBehaviour, IPlayer1Controller {
         _bombToConsume = false;
     }
     IEnumerator BombCooldownCoroutine() {
-        yield return new WaitForSeconds(_stats.StunAbilityCooldown);
+        yield return new WaitForSeconds(_stats.BombCooldown);
         _bombReady = true;
     }
 

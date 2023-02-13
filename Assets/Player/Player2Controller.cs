@@ -323,11 +323,13 @@ public class Player2Controller : MonoBehaviour, IPlayer2Controller {
             BlockAbilityStart?.Invoke();
             _blockAbilityActive = true;
             _blockAbilityReady = false;
+            _rb.bodyType = RigidbodyType2D.Static;
         }
         if (_endedBlockAbility) {
             BlockAbilityEnd?.Invoke();
             _blockAbilityActive = false;
             _endedBlockAbility = false;
+            _rb.bodyType = RigidbodyType2D.Dynamic;
 
             _blockAbilityCooldownCoroutine = StartCoroutine(BlockAbilityCooldownCoroutine());
         }

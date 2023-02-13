@@ -18,21 +18,21 @@ public class ExplodingObject : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(HelperFunctions.PartOfLayerMask(collision.gameObject, _hitLayers))
-        {
-            Collider2D[] hitArea = Physics2D.OverlapCircleAll(transform.position, _explosionRadius);
+        Collider2D[] hitArea = Physics2D.OverlapCircleAll(transform.position, _explosionRadius);
 
-            foreach(Collider2D collider in hitArea)
+        foreach(Collider2D collider in hitArea)
+        {
+            if(HelperFunctions.PartOfLayerMask(collider.gameObject, _hitLayers))
             {
                 if(collider.TryGetComponent(out IDamageTarget damageTarget))
                 {
                     damageTarget.DecreaseHealth(_damage);
                 }
             }
-
-            Instantiate(_particles, transform.position, Quaternion.identity);
-            Destroy(gameObject);
         }
+
+        Instantiate(_particles, transform.position, Quaternion.identity);
+        Destroy(gameObject);
     }
 
     private void OnDrawGizmos() => Gizmos.DrawWireSphere(transform.position, _explosionRadius);
