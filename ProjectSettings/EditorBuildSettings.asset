@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Menu_Screen.unity
     guid: 39b9f13db5cbf4d4389bbccd3dee66fa
   - enabled: 1
-    path: Assets/Scenes/Main Scene_Sanya.unity
-    guid: 9a34e0b66f5327e45ba2d3fb32af7af3
+    path: Assets/Scenes/Main Scene_Sanya1.unity
+    guid: 75cd68b6af892ad4c82aab3671f3cb8d
   m_configObjects: {}

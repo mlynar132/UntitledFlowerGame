@@ -17,11 +17,11 @@ public class UITest : MonoBehaviour
         UpdateDarknessMeter(_playerDarknessEvent.currentValue);
     }
 
-    private void OnEnable()
-    {
-        _playerHealthEvent.Event.AddListener(UpdatePlayerHealthText);
-        _playerDarknessEvent.Event.AddListener(UpdateDarknessMeter);
-    }
+    //private void OnEnable()
+    //{
+    //    _playerHealthEvent.Event.AddListener(UpdatePlayerHealthText);
+    //    _playerDarknessEvent.Event.AddListener(UpdateDarknessMeter);
+    //}
 
     private void OnDisable()
     {

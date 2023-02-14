@@ -21,13 +21,13 @@ public class PlayerHealthManager : MonoBehaviour
     [SerializeField] private GameObject _player2;
 
 
-    private void Awake()
-    {
-        _playerDarknessEvent.ResetValue();
-        _inDarknessEvent.ResetValue();
-        _player1HealthEvent.ResetValue();
-        _player2HealthEvent.ResetValue();
-    }
+    //private void Awake()
+    //{
+    //    _playerDarknessEvent.ResetValue();
+    //    _inDarknessEvent.ResetValue();
+    //    _player1HealthEvent.ResetValue();
+    //    _player2HealthEvent.ResetValue();
+    //}
 
     private void PlayerDied()
     {
