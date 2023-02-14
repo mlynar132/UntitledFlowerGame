@@ -387,8 +387,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -3.4648, y: 0}
-  m_SizeDelta: {x: 193.07, y: 20}
+  m_AnchoredPosition: {x: -3.4648, y: 2.0206}
+  m_SizeDelta: {x: 193.07, y: 15.9586}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &192442360
 MonoBehaviour:
@@ -434,13 +434,25 @@ MonoBehaviour:
   m_FillRect: {fileID: 1698130009}
   m_HandleRect: {fileID: 819787047}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 1
+  m_MinValue: -80
+  m_MaxValue: 20
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 68847496}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: SetVolume
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &197899890
 GameObject:
   m_ObjectHideFlags: 0
@@ -2815,7 +2827,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 34.254726, y: 5.269516, z: -53.250107, w: 22.264618}
+  m_margin: {x: 34.253323, y: 7.5733337, z: -42.8414, w: 24.57582}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
