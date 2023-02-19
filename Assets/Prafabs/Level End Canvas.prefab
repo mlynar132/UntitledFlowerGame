@@ -654,7 +654,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _levelEndEvent: {fileID: 11400000, guid: db37a445e67536549bbb32afd232d12c, type: 2}
   _openLevelEndScreenCanvas: {fileID: 11400000, guid: 57b3a915e4d33cb4884792482f34aa7b, type: 2}
-  _levelEndCanvas: {fileID: 8433890616765412035}
+  _goToMainMenu: {fileID: 11400000, guid: 89714322af4cd5c44a71154f3c6ddb2a, type: 2}
+  _levelEndScreen: {fileID: 8433890616986219416}
 --- !u!1 &8433890616986219416
 GameObject:
   m_ObjectHideFlags: 0

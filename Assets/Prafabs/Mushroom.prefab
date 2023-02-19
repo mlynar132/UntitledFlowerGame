@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4588986652033667478}
   - component: {fileID: 4588986652033667497}
   - component: {fileID: 4588986652033667496}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Mushroom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -119,6 +119,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eabd409d0193a8e42a352c1be303b04a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _explosionSound:
+    Guid:
+      Data1: -2034933105
+      Data2: 1256209541
+      Data3: 261804185
+      Data4: -666493078
+    Path: event:/Mushsplosion
   _hitLayers:
     serializedVersion: 2
     m_Bits: 6144

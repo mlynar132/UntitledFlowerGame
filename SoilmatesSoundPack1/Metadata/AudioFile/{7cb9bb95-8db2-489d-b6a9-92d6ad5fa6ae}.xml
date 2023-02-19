@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{7cb9bb95-8db2-489d-b6a9-92d6ad5fa6ae}">
+		<property name="assetPath">
+			<value>bird-flapping-wings-6046.mp3</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>24</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>72.215999999999994</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{b9c228c3-cfd4-4eca-91a1-b75891e32d5b}</destination>
+		</relationship>
+	</object>
+</objects>

@@ -9,8 +9,10 @@ public class Grapple : MonoBehaviour
     [SerializeField] private LayerMask _collisionMask;
     [SerializeField] private LayerMask _anchorMask;
     [SerializeField] private Rigidbody2D _rb;
-    [SerializeField] private GameObject _selectorObject;
-    //[SerializeField] private LineRenderer _line;
+    [SerializeField] private GameObject _selectorPrefab;
+
+    private GameObject _selectorObject;
+    [SerializeField] private LineRenderer _line;
 
     private Vector2 _selector;
     private Vector2 _aim;
@@ -18,10 +20,19 @@ public class Grapple : MonoBehaviour
 
     [SerializeField] private Player2Controller _p2;
     private IPlayer2Controller _playerInterface;
-    private void Awake() {
+
+    private void Awake( )
+    {
         _playerInterface = GetComponent<IPlayer2Controller>();
     }
-    private void Start() {
+
+    private void Start( )
+    {
+        if ( !_selectorObject )
+        {
+            _selectorObject = Instantiate( _selectorPrefab );
+        }
+
         _playerInterface.GrappleAim += Aim;
         _playerInterface.GrappleStart += Pull;
         Physics2D.queriesStartInColliders = false;
@@ -33,26 +44,29 @@ public class Grapple : MonoBehaviour
 
         _selectorObject.transform.position = _selector;
 
-        //_line.SetPosition( 0, transform.position );
+        _line.SetPosition( 0, transform.position );
 
         if ( _lastHit )
         {
-          //  _line.SetPosition( 1, _lastHit.point );
+            _line.SetPosition( 1, _lastHit.point );
         }
         else
         {
- //           _line.SetPosition( 1, ( Vector3 )( _aim * _range ) + transform.position );
+            _line.SetPosition( 1, ( Vector3 )( _aim * _range ) + transform.position );
         }
     }
 
 
-    private void Select( ) {
+    private void Select( )
+    {
         if ( _aim != Vector2.zero )
         {
-            var position = transform.position + new Vector3(0,0.5f,0);
-            
+            var position = transform.position + new Vector3( 0, 0.5f, 0 );
+
             _lastHit = Physics2D.Raycast( position, _aim, _range, _collisionMask );
-            if ( _lastHit ) {
+
+            if ( _lastHit )
+            {
                 Vector3 point = _lastHit.point;
 
                 point.z = -1;
@@ -61,35 +75,48 @@ public class Grapple : MonoBehaviour
                 var minDist = float.PositiveInfinity;
                 Vector2 target = Vector2.zero;
 
-                foreach ( var hit2 in hits ) {
+                foreach ( var hit2 in hits )
+                {
                     var distance = Vector2.Distance( hit2.point, hit2.transform.position );
 
                     if ( distance < minDist )
                     {
                         minDist = distance;
-                        target = hit2.transform.position;
+                        target = hit2.collider.transform.position;
                     }
                 }
 
                 _selector = target;
+
+                if ( _selector != Vector2.zero )
+                {
+                    _selectorObject.SetActive( true );
+                }
+                else
+                {
+                    _selectorObject.SetActive( false );
+                }
+
                 return;
             }
         }
-        else {
+        else
+        {
             _lastHit = new RaycastHit2D();
         }
 
         _selector = Vector2.zero;
+        _selectorObject.SetActive( false );
     }
 
 
-    private void Pull()
+    private void Pull( )
     {
-        //
-        if ( _selector == Vector2.zero )
+        if ( !_selectorObject.activeSelf )
         {
-            return; // Ignore zero
+            return; // Ignore if its off
         }
+
         //_p2.TakeAwayControl(false);
         Vector2 position = transform.position;
         var xDis = Mathf.Abs( _selector.x - position.x );
@@ -111,15 +138,21 @@ public class Grapple : MonoBehaviour
         {
             velocity.y += oldVelocity.y;
         }
-        _p2.ApplyVelocity(velocity, PlayerForce.Decay);
+
+        _p2.ApplyVelocity( velocity, PlayerForce.Decay );
         //_rb.velocity = velocity;
     }
 
 
     // Controlls
-    public void Aim(Vector2 dir )
+    public void Aim( Vector2 dir )
     {
-        _aim = dir;
+         _aim = dir.normalized;
+    }
+
+    public void TestAim( InputAction.CallbackContext context )
+    {
+        //_aim = context.ReadValue<Vector2>().normalized;
     }
 
     /*public void Grab( InputAction.CallbackContext context )

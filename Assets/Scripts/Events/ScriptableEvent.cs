@@ -9,6 +9,8 @@ public class ScriptableEvent<T> : ScriptableObject
     [SerializeField] protected T _startValue;
     public T currentValue;
 
+    public T startValue => _startValue;
+
     [NonSerialized] public UnityEvent<T> Event;
 
     protected virtual void OnEnable()

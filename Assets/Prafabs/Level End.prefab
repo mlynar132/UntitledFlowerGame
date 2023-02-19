@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6782638181154548123}
   - component: {fileID: 6782638181154548133}
   - component: {fileID: 6782638181154548132}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Level End
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -45,10 +45,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6466a98f40293748977788007c735ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _openWinScreenCanvas: {fileID: 11400000, guid: 57b3a915e4d33cb4884792482f34aa7b, type: 2}
-  _lastLevelCleared: {fileID: 11400000, guid: 5837e64768d7a9348b459915eb758840, type: 2}
-  _levelEvent: {fileID: 11400000, guid: cbd2e437bc478994a82709e4033721de, type: 2}
+  _playerMask:
+    serializedVersion: 2
+    m_Bits: 0
   _levels: {fileID: 11400000, guid: 550e50dc1580df043b7c705be02c0f3d, type: 2}
+  _lastLevelCleared: {fileID: 11400000, guid: 5837e64768d7a9348b459915eb758840, type: 2}
+  _openWinScreenCanvas: {fileID: 11400000, guid: 57b3a915e4d33cb4884792482f34aa7b, type: 2}
+  _levelEvent: {fileID: 11400000, guid: cbd2e437bc478994a82709e4033721de, type: 2}
   _levelEndTimer: 1
 --- !u!61 &6782638181154548132
 BoxCollider2D:

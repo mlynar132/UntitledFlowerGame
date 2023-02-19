@@ -89,13 +89,22 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""processors"": ""NormalizeVector2"",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""c1ab42cb-855f-49c4-aebb-fe3afb64179f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
                 {
                     ""name"": """",
                     ""id"": ""ec42d6a3-44f5-4513-8620-8c6f794b8219"",
-                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller"",
@@ -117,7 +126,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""cf00ce5d-702d-4187-a02a-e89e0b3b392f"",
-                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller"",
@@ -267,6 +276,17 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""action"": ""Aim"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""da084b58-2ab2-4856-b0f7-ba97dbb3ac06"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -336,6 +356,24 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Aim"",
+                    ""type"": ""Value"",
+                    ""id"": ""ee24975a-e796-4b22-a43c-48371da60940"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""042907e3-925a-4887-bd5c-65f418adbeac"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -507,11 +545,33 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""12af195c-e059-453e-a181-ace2677f46c4"",
-                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller"",
                     ""action"": ""Grapple"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""823416f2-c8ad-410c-b500-df25a332aa92"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": ""NormalizeVector2"",
+                    ""groups"": """",
+                    ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""74cae4a9-a649-4fb6-95e5-11be7931f7a2"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -557,6 +617,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         m_Player1_Jump = m_Player1.FindAction("Jump", throwIfNotFound: true);
         m_Player1_Swing = m_Player1.FindAction("Swing", throwIfNotFound: true);
         m_Player1_Aim = m_Player1.FindAction("Aim", throwIfNotFound: true);
+        m_Player1_Pause = m_Player1.FindAction("Pause", throwIfNotFound: true);
         // Player2
         m_Player2 = asset.FindActionMap("Player2", throwIfNotFound: true);
         m_Player2_BlockAbility = m_Player2.FindAction("BlockAbility", throwIfNotFound: true);
@@ -566,6 +627,8 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         m_Player2_Move = m_Player2.FindAction("Move", throwIfNotFound: true);
         m_Player2_Jump = m_Player2.FindAction("Jump", throwIfNotFound: true);
         m_Player2_Swing = m_Player2.FindAction("Swing", throwIfNotFound: true);
+        m_Player2_Aim = m_Player2.FindAction("Aim", throwIfNotFound: true);
+        m_Player2_Pause = m_Player2.FindAction("Pause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -632,6 +695,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player1_Jump;
     private readonly InputAction m_Player1_Swing;
     private readonly InputAction m_Player1_Aim;
+    private readonly InputAction m_Player1_Pause;
     public struct Player1Actions
     {
         private @PlayerInputAction m_Wrapper;
@@ -643,6 +707,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Player1_Jump;
         public InputAction @Swing => m_Wrapper.m_Player1_Swing;
         public InputAction @Aim => m_Wrapper.m_Player1_Aim;
+        public InputAction @Pause => m_Wrapper.m_Player1_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Player1; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -673,6 +738,9 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @Aim.started -= m_Wrapper.m_Player1ActionsCallbackInterface.OnAim;
                 @Aim.performed -= m_Wrapper.m_Player1ActionsCallbackInterface.OnAim;
                 @Aim.canceled -= m_Wrapper.m_Player1ActionsCallbackInterface.OnAim;
+                @Pause.started -= m_Wrapper.m_Player1ActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_Player1ActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_Player1ActionsCallbackInterface.OnPause;
             }
             m_Wrapper.m_Player1ActionsCallbackInterface = instance;
             if (instance != null)
@@ -698,6 +766,9 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @Aim.started += instance.OnAim;
                 @Aim.performed += instance.OnAim;
                 @Aim.canceled += instance.OnAim;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
             }
         }
     }
@@ -713,6 +784,8 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player2_Move;
     private readonly InputAction m_Player2_Jump;
     private readonly InputAction m_Player2_Swing;
+    private readonly InputAction m_Player2_Aim;
+    private readonly InputAction m_Player2_Pause;
     public struct Player2Actions
     {
         private @PlayerInputAction m_Wrapper;
@@ -724,6 +797,8 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Player2_Move;
         public InputAction @Jump => m_Wrapper.m_Player2_Jump;
         public InputAction @Swing => m_Wrapper.m_Player2_Swing;
+        public InputAction @Aim => m_Wrapper.m_Player2_Aim;
+        public InputAction @Pause => m_Wrapper.m_Player2_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Player2; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -754,6 +829,12 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @Swing.started -= m_Wrapper.m_Player2ActionsCallbackInterface.OnSwing;
                 @Swing.performed -= m_Wrapper.m_Player2ActionsCallbackInterface.OnSwing;
                 @Swing.canceled -= m_Wrapper.m_Player2ActionsCallbackInterface.OnSwing;
+                @Aim.started -= m_Wrapper.m_Player2ActionsCallbackInterface.OnAim;
+                @Aim.performed -= m_Wrapper.m_Player2ActionsCallbackInterface.OnAim;
+                @Aim.canceled -= m_Wrapper.m_Player2ActionsCallbackInterface.OnAim;
+                @Pause.started -= m_Wrapper.m_Player2ActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_Player2ActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_Player2ActionsCallbackInterface.OnPause;
             }
             m_Wrapper.m_Player2ActionsCallbackInterface = instance;
             if (instance != null)
@@ -779,6 +860,12 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
                 @Swing.started += instance.OnSwing;
                 @Swing.performed += instance.OnSwing;
                 @Swing.canceled += instance.OnSwing;
+                @Aim.started += instance.OnAim;
+                @Aim.performed += instance.OnAim;
+                @Aim.canceled += instance.OnAim;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
             }
         }
     }
@@ -810,6 +897,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnSwing(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
     public interface IPlayer2Actions
     {
@@ -820,5 +908,7 @@ public partial class @PlayerInputAction : IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnSwing(InputAction.CallbackContext context);
+        void OnAim(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
 }

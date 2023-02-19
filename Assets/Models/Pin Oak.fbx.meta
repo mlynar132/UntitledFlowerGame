@@ -8,7 +8,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Oak Bark
-    second: {fileID: 2100000, guid: b587dd4f6f75eb14caf7fe271264c8f2, type: 2}
+    second: {fileID: 2100000, guid: 8b9a4d5ee3c7c46489abd79748a20678, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule

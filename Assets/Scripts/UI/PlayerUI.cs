@@ -121,7 +121,7 @@ public class PlayerUI : MonoBehaviour
         if(_player1Controller != null)
         {
             _player1Controller.BombUsed += BombMushroomUsed;
-            _player1Controller.DashUsed += DashUsed;
+            _player1Controller.DashingChanged += DashingChanged;
             _player1Controller.AnchorUsed += AnchorUsed;
         }
 
@@ -147,7 +147,7 @@ public class PlayerUI : MonoBehaviour
         if(_player1Controller != null)
         {
             _player1Controller.BombUsed -= BombMushroomUsed;
-            _player1Controller.DashUsed -= DashUsed;
+            _player1Controller.DashingChanged -= DashingChanged;
             _player1Controller.AnchorUsed -= AnchorUsed;
         }
 
@@ -193,8 +193,8 @@ public class PlayerUI : MonoBehaviour
 
     #region Event Functions
     private void UpdateDarknessMeter(float amount) => _darknessSlider.value = amount;
-    private void DashUsed() => AbilityUsed(Ability.Dash, _player1Stats.DashCooldown);
-    private void BombMushroomUsed(Vector2 vector2) => AbilityUsed(Ability.BombMushroom, _player1Stats.BombCooldown);
+    private void DashingChanged(bool valueChanged, Vector2 vector2) => AbilityUsed(Ability.Dash, _player1Stats.DashCooldown);
+    private void BombMushroomUsed(float f) => AbilityUsed(Ability.BombMushroom, _player1Stats.BombCooldown);
     private void AnchorUsed(Vector2 vector2) => AbilityUsed(Ability.Anchor, _player1Stats.AnchorCooldown);
     private void GrapplingVinesUsed(bool valueChanged, Vector2 vector2)
     {

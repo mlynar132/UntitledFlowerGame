@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{e860d2de-c719-4577-b968-49e51a970af2}">
+		<property name="assetPath">
+			<value>0004_Wind_gusty_buffeted_mountainside_birds.wav</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>112.11197916666667</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{b9c228c3-cfd4-4eca-91a1-b75891e32d5b}</destination>
+		</relationship>
+	</object>
+</objects>

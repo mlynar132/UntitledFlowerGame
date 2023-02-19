@@ -116,12 +116,10 @@ public class Player2Controller : MonoBehaviour, IPlayer2Controller {
 
         if (_frameInput.Move.x != 0) _stickyFeet = false;
 
-        //if (_frameInput.DashDown && _stats.AllowDash) _dashToConsume = true;
         if (_frameInput.StunAbilityDown) _stunAbilityToConsume = true;
         if (_frameInput.BlockAbilityDown) _blockAbilityToConsume = true;//max duration?
         if (_frameInput.VineAbilityDown) _vineAbilityToConsume = true;
         if (_frameInput.GrappleDown) _grappleToConsume = true;
-        //if (_frameInput.AttackDown && _stats.AllowAttacks) _attackToConsume = true;
     }
     protected void FixedUpdate() {
         _fixedFrame++;
@@ -166,14 +164,7 @@ public class Player2Controller : MonoBehaviour, IPlayer2Controller {
             _groundHitCount = Physics2D.CapsuleCastNonAlloc(_col.bounds.center, _col.size, _col.direction, 0, Vector2.down, _groundHits, _stats.GrounderDistance, ~_stats.PlayerLayer);
             _ceilingHitCount = Physics2D.CapsuleCastNonAlloc(_col.bounds.center, _col.size, _col.direction, 0, Vector2.up, _ceilingHits, _stats.GrounderDistance, ~_stats.PlayerLayer);
         }
-        // Walls and Ladders
-        //var bounds = GetWallDetectionBounds(); // won't be able to detect a wall if we're crouching mid-air
-        //_wallHitCount = Physics2D.OverlapBoxNonAlloc(bounds.center, bounds.size, 0, _wallHits, _stats.ClimbableLayer);
 
-        //_hittingWall = Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0, new Vector2(_input.FrameInput.Move.x, 0), _stats.GrounderDistance, ~_stats.PlayerLayer);
-
-        //Physics2D.queriesHitTriggers = true; // Ladders are set to Trigger
-        //_ladderHitCount = Physics2D.OverlapBoxNonAlloc(bounds.center, bounds.size, 0, _ladderHits, _stats.LadderLayer);
         Physics2D.queriesHitTriggers = _cachedTriggerSetting;
     }
     protected virtual bool TryGetGroundNormal(out Vector2 groundNormal) {
@@ -183,10 +174,6 @@ public class Player2Controller : MonoBehaviour, IPlayer2Controller {
         groundNormal = hit.normal; // defaults to Vector2.zero if nothing was hit
         return hit.collider;
     }
-    /*private Bounds GetWallDetectionBounds() {
-        var colliderOrigin = _rb.position + _col.offset;
-        return new Bounds(colliderOrigin, _stats.WallDetectorSize);
-    }*/
     protected virtual void HandleCollisions() {
         // Hit a Ceiling
         if (_ceilingHitCount > 0) {
@@ -197,7 +184,6 @@ public class Player2Controller : MonoBehaviour, IPlayer2Controller {
         // Landed on the Ground
         if (!_grounded && _groundHitCount > 0) {
             _grounded = true;
-            //ResetDash();
             ResetJump();
             GroundedChanged?.Invoke(true, Mathf.Abs(_speed.y));
             if (_frameInput.Move.x == 0) _stickyFeet = true;
@@ -209,16 +195,6 @@ public class Player2Controller : MonoBehaviour, IPlayer2Controller {
             GroundedChanged?.Invoke(false, 0);
         }
     }
-
-    //private bool IsStandingPosClear(Vector2 pos) => CheckPos(pos, _standingCollider);
-    //private bool IsCrouchingPosClear(Vector2 pos) => CheckPos(pos, _crouchingCollider);
-
-    /*protected virtual bool CheckPos(Vector2 pos, CapsuleCollider2D col) {
-        Physics2D.queriesHitTriggers = false;
-        var hit = Physics2D.OverlapCapsule(pos + col.offset, col.size - _skinWidth, col.direction, 0, ~_stats.PlayerLayer);
-        Physics2D.queriesHitTriggers = _cachedTriggerSetting;
-        return !hit;
-    }*/
 
     #endregion
 
@@ -234,39 +210,25 @@ public class Player2Controller : MonoBehaviour, IPlayer2Controller {
 
     private bool HasBufferedJump => _bufferedJumpUsable && _fixedFrame < _frameJumpWasPressed + _stats.JumpBufferFrames;
     private bool CanUseCoyote => _coyoteUsable && !_grounded && _fixedFrame < _frameLeftGrounded + _stats.CoyoteFrames;
-    //private bool CanWallJump => (_isOnWall && !_isLeavingWall) || (_wallJumpCoyoteUsable && _fixedFrame < _frameLeftWall + _stats.WallJumpCoyoteFrames);
     private bool CanAirJump => !_grounded && _airJumpsRemaining > 0;
 
     protected virtual void HandleJump() {
         if (!_endedJumpEarly && !_grounded && !_frameInput.JumpHeld && _rb.velocity.y > 0) _endedJumpEarly = true; // Early end detection
 
         if (!_jumpToConsume && !HasBufferedJump) return;
-        //if (CanWallJump) WallJump();
-        if (_grounded /*|| ClimbingLadder*/ || CanUseCoyote) NormalJump();
+        if (_grounded || CanUseCoyote) NormalJump();
         else if (_jumpToConsume && CanAirJump) AirJump();
 
         _jumpToConsume = false; // Always consume the flag
     }
-    // Includes Ladder Jumps
     protected virtual void NormalJump() {
-        //if (Crouching && !TryToggleCrouching(false)) return; // try standing up first so we don't get stuck in low ceilings
         _endedJumpEarly = false;
         _frameJumpWasPressed = 0; // prevents double-dipping 1 input's jumpToConsume and buffered jump for low ceilings
         _bufferedJumpUsable = false;
         _coyoteUsable = false;
-        //ToggleClimbingLadder(false);
         _speed.y = _stats.JumpPower;
         Jumped?.Invoke(false);
     }
-    /*protected virtual void WallJump() {
-        _endedJumpEarly = false;
-        _bufferedJumpUsable = false;
-        if (_isOnWall) _isLeavingWall = true; // only toggle if it's a real WallJump, not CoyoteWallJump
-        _wallJumpCoyoteUsable = false;
-        _currentWallJumpMoveMultiplier = 0;
-        _speed = Vector2.Scale(_stats.WallJumpPower, new(-_lastWallDirection, 1));
-        Jumped?.Invoke(true);
-    }*/
     protected virtual void AirJump() {
         _endedJumpEarly = false;
         _airJumpsRemaining--;
@@ -355,7 +317,7 @@ public class Player2Controller : MonoBehaviour, IPlayer2Controller {
         if (_vineAbilityActive && !_endedVineAbility && !_frameInput.VineAbilityHeld) _endedVineAbility = true; // End detection
 
         if (_vineAbilityToConsume && _vineAbilityReady) {
-            VineAbilityChanged?.Invoke(true, _frameInput.Move);
+            VineAbilityChanged?.Invoke(true, _frameInput.Aim);
             _vineAbilityActive = true;
             _vineAbilityReady = false;
             //make it feel nice to swing            
@@ -363,7 +325,7 @@ public class Player2Controller : MonoBehaviour, IPlayer2Controller {
             _rb.gravityScale = 10;
         }
         if (_endedVineAbility) {
-            VineAbilityChanged?.Invoke(false, _frameInput.Move);
+            VineAbilityChanged?.Invoke(false, _frameInput.Aim);
             //VineAbilityEnd?.Invoke();
             _vineAbilityActive = false;
             _endedVineAbility = false;
@@ -388,11 +350,11 @@ public class Player2Controller : MonoBehaviour, IPlayer2Controller {
 
     protected virtual void HandleGrapple() {
         if (!_stats.AllowGrapple) return;
-        if (_frameInput.Move == Vector2.zero) {
-            GrappleAim?.Invoke(_lookDir);
+        if (_frameInput.Aim == Vector2.zero) {
+            GrappleAim?.Invoke(_frameInput.Aim);
         }
         else {
-            GrappleAim?.Invoke(_frameInput.Move);
+            GrappleAim?.Invoke(_frameInput.Aim);
         }
         if (_grappleToConsume && _grappleReady) {
             GrappleStart?.Invoke();
@@ -414,26 +376,18 @@ public class Player2Controller : MonoBehaviour, IPlayer2Controller {
     private bool _stickyFeet;
 
     protected virtual void HandleHorizontal() {
-        //if (_dashing) return;
-
         // Deceleration
         if (!HorizontalInputPressed) {
             var deceleration = _grounded ? _stats.GroundDeceleration * (_stickyFeet ? _stats.StickyFeetMultiplier : 1) : _stats.AirDeceleration;
             _speed.x = Mathf.MoveTowards(_speed.x, 0, deceleration * Time.fixedDeltaTime);
         }
-        // Crawling
-        /*else if (Crouching && _grounded) {
-            var crouchPoint = Mathf.InverseLerp(0, _stats.CrouchSlowdownFrames, _fixedFrame - _frameStartedCrouching);
-            var diminishedMaxSpeed = _stats.MaxSpeed * Mathf.Lerp(1, _stats.CrouchSpeedPenalty, crouchPoint);
-            _speed.x = Mathf.MoveTowards(_speed.x, _frameInput.Move.x * diminishedMaxSpeed, _stats.GroundDeceleration * Time.fixedDeltaTime);
-        }*/
         // Regular Horizontal Movement
         else {
             // Prevent useless horizontal speed buildup when against a wall
-            if (_hittingWall.collider && Mathf.Abs(_rb.velocity.x) < 0.01f /*&& !_isLeavingWall*/) _speed.x = 0;
+            if (_hittingWall.collider && Mathf.Abs(_rb.velocity.x) < 0.01f) _speed.x = 0;
 
-            var xInput = _frameInput.Move.x/* * (ClimbingLadder ? _stats.LadderShimmySpeedMultiplier : 1)*/;
-            _speed.x = Mathf.MoveTowards(_speed.x, xInput * _stats.MaxSpeed,/* _currentWallJumpMoveMultiplier * */_stats.Acceleration * Time.fixedDeltaTime);
+            var xInput = _frameInput.Move.x;
+            _speed.x = Mathf.MoveTowards(_speed.x, xInput * _stats.MaxSpeed,_stats.Acceleration * Time.fixedDeltaTime);
         }
     }
 
@@ -442,15 +396,7 @@ public class Player2Controller : MonoBehaviour, IPlayer2Controller {
     #region Vertical
 
     protected virtual void HandleVertical() {
-        //if (_dashing) return;
-
-        // Ladder
-        /*if (ClimbingLadder) {
-            var yInput = _frameInput.Move.y;
-            _speed.y = yInput * (yInput > 0 ? _stats.LadderClimbSpeed : _stats.LadderSlideSpeed);
-        }*/
         // Grounded & Slopes
-        /*else*/
         if (_grounded && _speed.y <= 0f) {
             _speed.y = _stats.GroundingForce;
             if (TryGetGroundNormal(out var groundNormal)) {
@@ -462,13 +408,6 @@ public class Player2Controller : MonoBehaviour, IPlayer2Controller {
                 }
             }
         }
-        // Wall Climbing & Sliding
-        /*else if (_isOnWall && !_isLeavingWall) {
-            if (_frameInput.Move.y > 0) _speed.y = _stats.WallClimbSpeed;
-            else if (_frameInput.Move.y < 0) _speed.y = -_stats.MaxWallFallSpeed;
-            else if (GrabbingLedge) _speed.y = Mathf.MoveTowards(_speed.y, 0, _stats.LedgeGrabDeceleration * Time.fixedDeltaTime);
-            else _speed.y = Mathf.MoveTowards(Mathf.Min(_speed.y, 0), -_stats.MaxWallFallSpeed, _stats.WallFallAcceleration * Time.fixedDeltaTime);
-        }*/
         // In Air
         else {
             var inAirGravity = _stats.FallAcceleration;

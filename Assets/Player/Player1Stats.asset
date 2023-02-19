@@ -24,9 +24,9 @@ MonoBehaviour:
   AirDeceleration: 30
   GroundingForce: -1.5
   StickyFeetMultiplier: 2
-  GrounderDistance: 0.05
+  GrounderDistance: 0.052
   MaxAirJumps: 0
-  JumpPower: 36
+  JumpPower: 40
   MaxFallSpeed: 40
   FallAcceleration: 110
   JumpEndEarlyGravityModifier: 3
@@ -41,13 +41,15 @@ MonoBehaviour:
   MovementImpactScaleWhileSwinging: 5
   VineAbilityCooldown: 3
   VineAbilityMaxRange: 3
+  AllowGrapple: 1
+  GrappleCooldown: 3
   AllowBomb: 1
   BombCooldown: 0
   AllowAnchor: 1
-  AnchorCooldown: 1
+  AnchorCooldown: 0.5
   AllowDash: 1
   DashCooldown: 0
-  DashVelocity: 50
+  DashVelocity: 35
   DashDurationFrames: 5
   DashEndHorizontalMultiplier: 0.25
   ExternalVelocityDecay: 100

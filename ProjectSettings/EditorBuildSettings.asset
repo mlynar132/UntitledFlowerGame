@@ -6,9 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Menu_Screen.unity
-    guid: 39b9f13db5cbf4d4389bbccd3dee66fa
+    path: Assets/Scenes/Newest Main Scene.unity
+    guid: 6b5efc4900a59c546b4ec98bf8892dc2
   - enabled: 1
-    path: Assets/Scenes/Main Scene_Sanya.unity
-    guid: 9a34e0b66f5327e45ba2d3fb32af7af3
+    path: Assets/Scenes/Karin.unity
+    guid: d9f3604302d350646a88ef7a3f800b02
   m_configObjects: {}

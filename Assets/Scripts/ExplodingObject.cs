@@ -1,3 +1,5 @@
+using FMOD.Studio;
+using FMODUnity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +8,7 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class ExplodingObject : MonoBehaviour
 {
+    [SerializeField] private EventReference _explosionSound;
     [SerializeField] private LayerMask _hitLayers;
     [SerializeField] private float _explosionRadius = 1f;
     [SerializeField] private int _damage = 1;
@@ -31,6 +34,7 @@ public class ExplodingObject : MonoBehaviour
             }
         }
 
+        RuntimeManager.PlayOneShot(_explosionSound, transform.position);
         Instantiate(_particles, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }

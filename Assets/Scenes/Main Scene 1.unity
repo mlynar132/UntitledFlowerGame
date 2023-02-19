@@ -1823,9 +1823,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd90267502094a3408ea64dd70eb93e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _type: 1
-  _damage: 5
-  _returnPoints: []
+  _interactions: []
 --- !u!61 &1185141180
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6952,8 +6950,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc14d6b5fa856554aa97c9a706aeb551, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerDeathEvent: {fileID: 11400000, guid: 934d2b6bb7634764484354cc1a881fde, type: 2}
-  _playerRespawnTime: 1
 --- !u!4 &1386899783
 Transform:
   m_ObjectHideFlags: 0
@@ -7422,9 +7418,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37c6d4e9b0f3bb941abc181c8d53c666, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _movementSpeed: 100
   _maxHealth: 20
-  _stundDuration: 5
+  _stunDuration: 0
+  _requiersCombo: 0
+  _movementSpeed: 100
+  _walkPattern: 0
+  _walkPoints: []
+  _detectionMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!23 &1565543157
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -8136,11 +8138,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13483fbe16765b94489201c289dd6388, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerHealthEvent: {fileID: 11400000, guid: dbaaecc63f274444882d9e9f268129cc, type: 2}
   _playerDeathEvent: {fileID: 11400000, guid: 934d2b6bb7634764484354cc1a881fde, type: 2}
   _inDarknessEvent: {fileID: 11400000, guid: 1f921e2b880e70c42a0c3353eea4d9d6, type: 2}
   _playerDarknessEvent: {fileID: 11400000, guid: ab7332cc53f3f6c4fabe68730a9c4349, type: 2}
   _oxygenLossEvent: {fileID: 11400000, guid: cd658feefc9be444a9890834adb3673a, type: 2}
+  _player1HealthEvent: {fileID: 0}
+  _player2HealthEvent: {fileID: 0}
   _darknessTimerLength: 10
   _player1: {fileID: 0}
   _player2: {fileID: 0}

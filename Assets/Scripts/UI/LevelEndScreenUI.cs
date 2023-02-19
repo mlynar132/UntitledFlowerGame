@@ -7,6 +7,7 @@ public class LevelEndScreenUI : MonoBehaviour
 {
     [SerializeField] private DefaultEvent _levelEndEvent;
     [SerializeField] private DefaultEvent _openLevelEndScreenCanvas;
+    [SerializeField] private DefaultEvent _goToMainMenu;
 
     [SerializeField] private Canvas _levelEndCanvas;
 
@@ -14,13 +15,13 @@ public class LevelEndScreenUI : MonoBehaviour
 
     private void OnDisable() => _openLevelEndScreenCanvas.Event.RemoveListener(OpenWinScreenCanvas);
 
-    private void Start() => _levelEndCanvas.enabled = false;
+    private void Start() => _levelEndCanvas.gameObject.SetActive(false);
 
-    private void OpenWinScreenCanvas() => _levelEndCanvas.enabled = true;
+    private void OpenWinScreenCanvas() => _levelEndCanvas.gameObject.SetActive(true);
 
     public void GotoNextLevel() => _levelEndEvent.InvokeEvent();
 
     public void RestartLevel() => SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
-    public void MainMenu() => Debug.Log("Go to main menu");
+    public void MainMenu() => _goToMainMenu.InvokeEvent();
 }

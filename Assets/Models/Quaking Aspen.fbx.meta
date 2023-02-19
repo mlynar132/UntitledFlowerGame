@@ -8,7 +8,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Quaking Aspen Bark
-    second: {fileID: 2100000, guid: b6ed796537766b246ac3bab58bb1c121, type: 2}
+    second: {fileID: 2100000, guid: f2d0dc476e115c54681366c782bbade5, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule

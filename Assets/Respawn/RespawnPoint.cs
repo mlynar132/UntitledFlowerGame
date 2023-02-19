@@ -5,18 +5,23 @@ using UnityEngine.SceneManagement;
 public class RespawnPoint : MonoBehaviour
 {
     [SerializeField] private bool _startSpawnPoint;
+    [SerializeField] private Transform[] _spawningPositions;
 
     private bool _player1Check;
     private bool _player2Check;
     private bool _activated;
 
-    private void Start( )
+    private void Awake( )
     {
-        if ( _startSpawnPoint )
+        if ( !_startSpawnPoint || _activated ) return;
+
+        if ( RespawnManager.IsEmpty )
         {
-            _activated = true;
-            RespawnManager.ActivatePoint( transform.position, SceneManager.GetActiveScene().name );
+            Debug.Log( _spawningPositions[0].position );
+            RespawnManager.ActivatePoint( _spawningPositions, SceneManager.GetActiveScene().name );
         }
+
+        _activated = true;
     }
 
     private void OnTriggerEnter2D( Collider2D col )
@@ -36,7 +41,7 @@ public class RespawnPoint : MonoBehaviour
         if ( _player1Check && _player2Check )
         {
             _activated = true;
-            RespawnManager.ActivatePoint( transform.position, SceneManager.GetActiveScene().name );
+            RespawnManager.ActivatePoint( _spawningPositions, SceneManager.GetActiveScene().name );
         }
     }
 }

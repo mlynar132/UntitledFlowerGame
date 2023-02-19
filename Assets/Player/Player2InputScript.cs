@@ -8,7 +8,7 @@ public class Player2InputScript : MonoBehaviour {
     public Player2FrameInput FrameInput { get; private set; }
     //private PlayerInputAction _playerInputAction;
     //private InputAction _move, _jump, _block, _attack, _vine;
-    private Vector2 _move;
+    private Vector2 _move, _aim;
     private bool _jumpDown, _jumpHeld, _stunDown, _blockDown, _blockHeld, _vineDown, _vineHeld, _grappleDown, _grappleHeld;
     private void Awake() {
         /*_playerInputAction = new PlayerInputAction();
@@ -42,6 +42,7 @@ public class Player2InputScript : MonoBehaviour {
     private Player2FrameInput GartherFrameInput() {
         return new Player2FrameInput {
             Move = _move,
+            Aim = _aim,
             JumpDown = _jumpDown,
             JumpHeld = _jumpHeld,
             StunAbilityDown = _stunDown,
@@ -64,6 +65,9 @@ public class Player2InputScript : MonoBehaviour {
     }
     public void MoveInput(InputAction.CallbackContext context) {
         _move = context.ReadValue<Vector2>();
+    }
+    public void AimInput(InputAction.CallbackContext context) {
+        _aim = context.ReadValue<Vector2>();
     }
     public void JumpInput(InputAction.CallbackContext context) {
         if (context.started) {
@@ -109,6 +113,7 @@ public class Player2InputScript : MonoBehaviour {
 }
 public struct Player2FrameInput {
     public Vector2 Move;
+    public Vector2 Aim;
     public bool JumpDown;
     public bool JumpHeld;
     public bool StunAbilityDown;

@@ -8,7 +8,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Spruce Bark
-    second: {fileID: 2100000, guid: 7ef4c75849eeb2e429eaee44be657df4, type: 2}
+    second: {fileID: 2100000, guid: ae5c381ba96da574a980eb3091bb23cb, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule

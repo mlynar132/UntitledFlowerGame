@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 169607354590087806}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Return Position
   m_TagString: Untagged
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 169607354726907267}
   - component: {fileID: 169607354726907268}
   - component: {fileID: 169607354726907269}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Damage Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -118,7 +118,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 169607355036207303}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Return Position
   m_TagString: Untagged
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
@@ -151,7 +151,7 @@ GameObject:
   - component: {fileID: 169607355301467440}
   - component: {fileID: 169607355301467439}
   - component: {fileID: 169607355301467438}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Return Point Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -242,7 +242,7 @@ GameObject:
   - component: {fileID: 169607355401137841}
   - component: {fileID: 169607355401137843}
   - component: {fileID: 169607355401137842}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Return Point Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -331,7 +331,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 169607355834046115}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Damage Zone
   m_TagString: Untagged
   m_Icon: {fileID: 0}

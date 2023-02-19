@@ -22,9 +22,9 @@ TagManager:
   - Ground
   - Enemy
   - Pressure Plate
-  - 
-  - 
-  - 
+  - No Collision
+  - Enemy Projectile
+  - Bomb
   - 
   - 
   - 

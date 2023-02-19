@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 public class Player1InputScript : MonoBehaviour {
     public Player1FrameInput FrameInput { get; private set; }
-    private Vector2 _move;
+    private Vector2 _move, _aim;
     private bool _jumpDown, _jumpHeld, _dashDown, _bombDown, _anchorDown;
     private void Update() {
         FrameInput = GartherFrameInput();
@@ -13,6 +13,7 @@ public class Player1InputScript : MonoBehaviour {
     private Player1FrameInput GartherFrameInput() {
         return new Player1FrameInput {
             Move = _move,
+            Aim = _aim,
             JumpDown = _jumpDown,
             JumpHeld = _jumpHeld,
             DashDown = _dashDown,
@@ -28,6 +29,9 @@ public class Player1InputScript : MonoBehaviour {
     }
     public void MoveInput(InputAction.CallbackContext context) {
         _move = context.ReadValue<Vector2>();
+    }
+    public void AimInput(InputAction.CallbackContext context) {
+        _aim = context.ReadValue<Vector2>();
     }
     public void JumpInput(InputAction.CallbackContext context) {
         if (context.started) {
@@ -56,6 +60,7 @@ public class Player1InputScript : MonoBehaviour {
 }
 public struct Player1FrameInput {
     public Vector2 Move;
+    public Vector2 Aim;
     public bool JumpDown;
     public bool JumpHeld;
     public bool DashDown;

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{27555cf6-f8a4-4276-8513-c7bc7aadcc70}">
+		<property name="assetPath">
+			<value>raven-call-72946.mp3</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>24</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>21.984000000000002</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{b9c228c3-cfd4-4eca-91a1-b75891e32d5b}</destination>
+		</relationship>
+	</object>
+</objects>

@@ -18,7 +18,14 @@ public class JumpPad : MonoBehaviour, IPowered
         {
             foreach ( var body in _currentBodies )
             {
-                body.velocity += _power * ( ( Vector2 )transform.up ).normalized;
+                if (body.TryGetComponent(out Player1Controller lol)) {
+                    lol.ApplyVelocity(_power * ((Vector2)transform.up).normalized, PlayerForce.Decay);
+                    Debug.Log("DAS");
+                }
+                else {
+                    body.velocity += _power * ( ( Vector2 )transform.up ).normalized;
+                }
+                
             }
         }
     }
