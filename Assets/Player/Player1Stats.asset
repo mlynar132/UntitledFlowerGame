@@ -44,7 +44,7 @@ MonoBehaviour:
   AllowGrapple: 1
   GrappleCooldown: 3
   AllowBomb: 1
-  BombCooldown: 0
+  BombCooldown: 0.5
   AllowAnchor: 1
   AnchorCooldown: 0.5
   AllowDash: 1

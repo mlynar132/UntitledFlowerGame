@@ -30,6 +30,7 @@ public class Player1Animator : MonoBehaviour {
 
     [Header("GROUND MOVEMENT")]
     [SerializeField] private EventReference _footstepClips;
+    [SerializeField] private ParticleSystem _moveParticles;
 
     // Called from AnimationEvent
     public void PlayFootstepSound() {
@@ -58,6 +59,7 @@ public class Player1Animator : MonoBehaviour {
     [SerializeField] private float _maxImpactForce = 40;
     [SerializeField] private float _landAnimDuration = 0.36f;
     [SerializeField] private float _jumpAnimDuration = 0.4f;
+    [SerializeField] private ParticleSystem _jumpParticles, _launchParticles, _landParticles;
     //[SerializeField] private AudioClip _landClip, _jumpClip, _doubleJumpClip;
 
     private bool _jumpTriggered;
@@ -71,6 +73,8 @@ public class Player1Animator : MonoBehaviour {
             return;
         }
         //PlaySound(_jumpClip, 0.05f, Random.Range(0.98f, 1.02f));
+        _launchParticles.Play();
+        _jumpParticles.Play();
     }
 
     private void OnGroundedChanged(bool grounded, float impactForce) {
@@ -80,7 +84,12 @@ public class Player1Animator : MonoBehaviour {
             var p = Mathf.InverseLerp(_minImpactForce, _maxImpactForce, impactForce);
             _landed = true;
             //PlaySound(_landClip, p * 0.1f);
+            _landParticles.transform.localScale = p * Vector3.one;
+            _landParticles.Play();
         }
+
+        if (_grounded) _moveParticles.Play();
+        else _moveParticles.Stop();
     }
 
     #endregion

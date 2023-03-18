@@ -1,3 +1,4 @@
+using FMODUnity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,17 +7,25 @@ using static OnTrigger2dEvent;
 [RequireComponent( typeof( Rigidbody2D ) )]
 public class Enemy : MonoBehaviour, IStunable, IDamageTarget
 {
-    [Header( "Health" )] [SerializeField] private int _maxHealth;
+    [Header( "Health" )]
+    [SerializeField] private int _maxHealth;
     [SerializeField] private float _stunDuration;
     [SerializeField] private bool _requiersCombo;
+    [SerializeField] private EventReference _deathSound;
 
-    [Header( "Movement" )] [SerializeField]
+    [Header( "Movement" )]
+    [SerializeField]
     private float _movementSpeed = 100;
 
     [SerializeField] private WalkPattern _walkPattern;
     [SerializeField] private Transform[] _walkPoints;
 
-    [Header( "Combat" )] [SerializeField] private LayerMask _detectionMask;
+    [Header("Combat")]
+    [SerializeField] private bool _dealDamageOnCollision;
+    [SerializeField] private int _damageOnCollision = 1;
+    [SerializeField] private float _damageFrequencyInSeconds = 1;
+
+    [SerializeField] private LayerMask _detectionMask;
 
     private Vector2 _currentTargetPosition;
     private int _health;
@@ -47,6 +56,54 @@ public class Enemy : MonoBehaviour, IStunable, IDamageTarget
 
     protected State _state;
     protected State _previousState;
+
+    private Dictionary<IDamageTarget, DamageOverTime> _damageDictionary = new Dictionary<IDamageTarget, DamageOverTime>();
+
+    public class DamageOverTime
+    {
+        public float startTime;
+        public IDamageTarget target;
+        public int damage;
+        private float _timer;
+
+        private bool _colliding;
+
+        public void Initiate(IDamageTarget target, float startTime, int damage)
+        {
+            this.target = target;
+            this.startTime = startTime;
+            this.damage = damage;
+
+            _timer = 0;
+            _colliding = true;
+        }
+
+        public void Start()
+        {
+            _colliding = true;
+            _timer = 0;
+        }
+
+        public void Stop()
+        {
+            _colliding = false;
+            _timer = 0;
+        }
+
+        public void Update()
+        {
+            if(_colliding)
+            {
+                if(_timer <= 0)
+                {
+                    target.DecreaseHealth(damage);
+                    _timer = startTime;
+                }
+
+                _timer -= Time.deltaTime;
+            }
+        }
+    }
 
     private bool UsingWalkPattern( WalkPattern pattern ) => _state == State.Moving && _walkPattern == pattern;
 
@@ -106,13 +163,23 @@ public class Enemy : MonoBehaviour, IStunable, IDamageTarget
 
             float xDir = Mathf.Sign( _currentAttackTarget.transform.position.x - transform.position.x );
             Vector3 scale = transform.localScale;
-            scale.x = xDir;
+
+            if ( Mathf.Sign( scale.x ) != xDir ) // flip scale instead of setting to 1 or -1
+            {
+                scale.x *= -1;
+            }
+
             transform.localScale = scale;
         }
         else if ( _animator )
         {
             _animator.SetBool( Attacking, false );
         }
+
+        if(_dealDamageOnCollision)
+        {
+            foreach(KeyValuePair<IDamageTarget, DamageOverTime> target in _damageDictionary)
+                target.Value.Update();        }
     }
 
     private void OnCollisionEnter2D( Collision2D collision )
@@ -130,6 +197,42 @@ public class Enemy : MonoBehaviour, IStunable, IDamageTarget
             }
             // }
             // }
+        }
+
+        if(HelperFunctions.PartOfLayerMask(collision.gameObject, _detectionMask))
+        {
+            if(_dealDamageOnCollision)
+            {
+                if (collision.gameObject.TryGetComponent(out IDamageTarget damageTarget))
+                {
+                    if(!_damageDictionary.ContainsKey(damageTarget))
+                    {
+                        DamageOverTime damageOverTime = new DamageOverTime();
+                        damageOverTime.Initiate(damageTarget, _damageFrequencyInSeconds, _damageOnCollision);
+
+                        _damageDictionary.Add(damageTarget, damageOverTime);
+                    }
+                    else
+                    {
+                        _damageDictionary[damageTarget].Start();
+                    }
+                }
+            }
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (HelperFunctions.PartOfLayerMask(collision.gameObject, _detectionMask))
+        {
+            if (_dealDamageOnCollision)
+            {
+                if (collision.gameObject.TryGetComponent(out IDamageTarget damageTarget))
+                {
+                    if (_damageDictionary.ContainsKey(damageTarget))
+                        _damageDictionary[damageTarget].Stop();
+                }
+            }
         }
     }
 
@@ -212,7 +315,9 @@ public class Enemy : MonoBehaviour, IStunable, IDamageTarget
     IEnumerator StunCoroutine( )
     {
         yield return new WaitForSeconds( _stunDuration );
-        _state = _previousState;
+        // _state = _previousState;
+        _state = State.Moving; // Else it will start attacking again after being stunned.
+                               // It should lose the players if they leave during the stun. <3
         _p1hit = false;
         _p2hit = false;
     }
@@ -225,5 +330,9 @@ public class Enemy : MonoBehaviour, IStunable, IDamageTarget
             KillTarget();
     }
 
-    public void KillTarget( ) => Destroy( gameObject );
+    public void KillTarget( )
+    {
+        RuntimeManager.PlayOneShot( _deathSound, Camera.main.transform.position );
+        Destroy( gameObject );
+    }
 }

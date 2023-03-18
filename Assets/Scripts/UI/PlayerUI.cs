@@ -26,6 +26,9 @@ public class PlayerUI : MonoBehaviour
     [SerializeField] private Slider _darknessSlider;
     [SerializeField] private Sprite _emptyFrame;
 
+    [SerializeField] private Sprite _healthSprite;
+    [SerializeField] private Sprite _healthEmptySprite;
+
     [SerializeField] private Image[] _player1HealthImages;
     [SerializeField] private Image[] _player2HealthImages;
 
@@ -175,19 +178,9 @@ public class PlayerUI : MonoBehaviour
 
     private void UpdateHealth(Image[] images, int health)
     {
-        images[0].enabled = health > 0;
-        images[1].enabled = health > 1;
-        images[2].enabled = health > 2;
-
-        foreach(Image image in images)
-        {
-            if (image != null)
-                image.color = health > 0 ? Color.red : image.color;
-            if (image != null)
-                image.color = health > 1 ? Color.yellow : image.color;
-            if (image != null)
-                image.color = health > 2 ? Color.green : image.color;
-        }
+        images[0].sprite = health > 0 ? _healthSprite : _healthEmptySprite;
+        images[1].sprite = health > 1 ? _healthSprite : _healthEmptySprite;
+        images[2].sprite = health > 2 ? _healthSprite : _healthEmptySprite;
     }
 
 

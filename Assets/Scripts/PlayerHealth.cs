@@ -1,3 +1,4 @@
+using System;
 using FMODUnity;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,22 +10,25 @@ public class PlayerHealth : MonoBehaviour, IDamageTarget
     [SerializeField] private IntEvent _playerHealthEvent;
     [SerializeField] private EventReference _deathSound;
 
+    private ParticleSystem _particle;
+
+    public int Health => _playerHealthEvent.currentValue;
+
+    private void Awake( )
+    {
+        _particle = GetComponent<ParticleSystem>();
+    }
+
     public void KillTarget( ) => PlayerDied();
 
-    public bool HasMaxHealth() => _playerHealthEvent.currentValue == _playerHealthEvent.startValue;
+    public bool HasMaxHealth( ) => _playerHealthEvent.currentValue == _playerHealthEvent.startValue;
 
     private void PlayerDied( )
     {
-        RuntimeManager.PlayOneShot(_deathSound, transform.position);
-        StartCoroutine(RespawnTimer());
-        // _playerDeathEvent.InvokeEvent();
-        // gameObject.SetActive(false);
-    }
-
-    private IEnumerator RespawnTimer()
-    {
-        yield return new WaitForSeconds(1);
-        RespawnManager.Respawn();
+        RuntimeManager.PlayOneShot( _deathSound, Camera.main.transform.position );
+        _playerDeathEvent.InvokeEvent();
+        _particle.Play();
+        transform.GetChild( 0 ).gameObject.SetActive( false );
     }
 
     public void DecreaseHealth( int amount )
@@ -42,17 +46,17 @@ public class PlayerHealth : MonoBehaviour, IDamageTarget
         }
     }
 
-    public void IncreaeseHealth(int amount)
+    public void IncreaeseHealth( int amount )
     {
         int newHealth = _playerHealthEvent.currentValue + amount;
 
-        if(newHealth >= _playerHealthEvent.startValue)
+        if ( newHealth >= _playerHealthEvent.startValue )
         {
-            _playerHealthEvent.ChangeValue(_playerHealthEvent.startValue);
+            _playerHealthEvent.ChangeValue( _playerHealthEvent.startValue );
         }
         else
         {
-            _playerHealthEvent.ChangeValue(newHealth);
+            _playerHealthEvent.ChangeValue( newHealth );
         }
     }
 }

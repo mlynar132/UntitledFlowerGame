@@ -124,7 +124,7 @@ public class Grapple : MonoBehaviour
         var direction = ( _selector - position ).normalized;
 
         var velocity = Vector2.zero;
-        velocity.x = direction.x * ( Mathf.Sqrt( xDis ) * _force );
+        velocity.x = Mathf.Sign( direction.x ) * ( Mathf.Sqrt( xDis ) * _force );
         velocity.y = Mathf.Sign( direction.y ) * ( Mathf.Sqrt( yDis ) * _force );
 
         var oldVelocity = _rb.velocity;
@@ -147,7 +147,7 @@ public class Grapple : MonoBehaviour
     // Controlls
     public void Aim( Vector2 dir )
     {
-         _aim = dir.normalized;
+        _aim = dir.normalized;
     }
 
     public void TestAim( InputAction.CallbackContext context )

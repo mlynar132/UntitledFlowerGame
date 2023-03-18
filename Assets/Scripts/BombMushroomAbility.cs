@@ -41,7 +41,7 @@ public class BombMushroomAbility : MonoBehaviour
         angle.x *= dir;
 
         ExplodingObject explodingObject = Instantiate( _explodingObject );
-        explodingObject.transform.position = ( Vector3 )angle + transform.position;
+        explodingObject.transform.position = ( Vector3 )angle + _throwLocation.position;
 
         var force = angle * _force;
         force.x += _playerInterface.Velocity.x;

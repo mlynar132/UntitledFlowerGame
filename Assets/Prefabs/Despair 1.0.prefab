@@ -71,13 +71,23 @@ MonoBehaviour:
   _maxHealth: 1
   _stunDuration: 0
   _requiersCombo: 0
+  _deathSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   _movementSpeed: 100
   _walkPattern: 0
   _walkPoints:
   - {fileID: 0}
+  _dealDamageOnCollision: 1
+  _damageOnCollision: 1
+  _damageFrequencyInSeconds: 1
   _detectionMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
 --- !u!61 &1672621783052356212
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -191,3 +201,22 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &5247842395437121816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2220111129470060266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c64056a5bc0147a46b647f3abe418792, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _walkSound:
+    Guid:
+      Data1: 127714206
+      Data2: 1293016101
+      Data3: 251899010
+      Data4: 275082094
+    Path: event:/EnemyWalk

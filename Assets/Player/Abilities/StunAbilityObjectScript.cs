@@ -5,15 +5,13 @@ using UnityEngine;
 public class StunAbilityObjectScript : MonoBehaviour {
     [SerializeField] private float _attackDuration;
     [SerializeField] private GameObject _attack;
-    private float _decay;
-    private void OnEnable() {
-        _decay = _attackDuration;
+    [SerializeField] private Animator _anim;
+
+    private void Start() {
+        _anim = GetComponent<Animator>();
     }
-    private void FixedUpdate() {
-        _decay -= Time.deltaTime;
-        if (_decay <= 0) {
-            gameObject.SetActive(false);
-        }
+    private void OnEnable() {
+        //it shoudl play animation automaticly
     }
     private void OnTriggerEnter2D(Collider2D collision) {
         if (collision.TryGetComponent(out IStunable enemyStunable)) {
@@ -28,5 +26,8 @@ public class StunAbilityObjectScript : MonoBehaviour {
                 enemyStunable.P2hit = true;
             }
         }
+    }
+    public void EndAttack() {
+        gameObject.SetActive(false);
     }
 }

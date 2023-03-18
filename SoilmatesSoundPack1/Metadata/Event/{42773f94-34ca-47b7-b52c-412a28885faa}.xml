@@ -5,7 +5,7 @@
 			<value>WallOfDeath</value>
 		</property>
 		<property name="outputFormat">
-			<value>2</value>
+			<value>1</value>
 		</property>
 		<relationship name="folder">
 			<destination>{fdff6034-892f-44e3-af07-eac812fa627f}</destination>
@@ -163,7 +163,6 @@
 	<object class="MixerBusEffectChain" id="{a856ca5f-7a62-4089-b57e-6267f34c52f7}">
 		<relationship name="effects">
 			<destination>{54b02f66-676a-4532-896c-f2ef81fd5851}</destination>
-			<destination>{005bd6ec-7558-43db-8b08-bb73e24fd515}</destination>
 			<destination>{b277f3a8-5567-45b7-af74-2a822b3bdb6d}</destination>
 		</relationship>
 	</object>
@@ -186,11 +185,6 @@
 		</relationship>
 	</object>
 	<object class="MixerBusFader" id="{54b02f66-676a-4532-896c-f2ef81fd5851}" />
-	<object class="SpatialiserEffect" id="{005bd6ec-7558-43db-8b08-bb73e24fd515}">
-		<property name="distanceRolloffType">
-			<value>4</value>
-		</property>
-	</object>
 	<object class="LowpassEffect" id="{b277f3a8-5567-45b7-af74-2a822b3bdb6d}">
 		<relationship name="automators">
 			<destination>{c6a10261-d2ca-485b-bc12-0097a1ef3e6d}</destination>

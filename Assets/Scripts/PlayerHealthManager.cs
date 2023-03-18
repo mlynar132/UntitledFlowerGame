@@ -10,6 +10,7 @@ public class PlayerHealthManager : MonoBehaviour
     [SerializeField] private BoolEvent _oxygenLossEvent;
     [SerializeField] private IntEvent _player1HealthEvent;
     [SerializeField] private IntEvent _player2HealthEvent;
+    [SerializeField] private DefaultEvent _playerDeathEvent;
 
     [Header("Stats")]
     [SerializeField] private float _darknessTimerLength = 10;
@@ -20,9 +21,16 @@ public class PlayerHealthManager : MonoBehaviour
         _inDarknessEvent.ResetValue();
         _player1HealthEvent.ResetValue();
         _player2HealthEvent.ResetValue();
+        _playerDeathEvent.Event.AddListener(PlayerDied);
     }
 
-    private void PlayerDied() => RespawnManager.Respawn();
+    private void PlayerDied() => StartCoroutine(RespawnTimer());
+
+    private IEnumerator RespawnTimer()
+    {
+        yield return new WaitForSeconds(1);
+        RespawnManager.Respawn();
+    }
 
     private void Update()
     {

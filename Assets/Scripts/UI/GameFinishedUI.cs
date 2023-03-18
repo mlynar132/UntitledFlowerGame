@@ -7,7 +7,7 @@ public class GameFinishedUI : MonoBehaviour
 {
     [SerializeField] private DefaultEvent _restartGameEvent;
 
-    public void MainMenu() => Debug.Log("Go to main menu");
+    public void MainMenu() => SceneManager.LoadScene(0);
 
     public void Restart() => _restartGameEvent.InvokeEvent();
 

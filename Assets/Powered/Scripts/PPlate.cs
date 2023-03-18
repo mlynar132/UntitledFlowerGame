@@ -14,10 +14,12 @@ public enum PlateMode
 public class PPlate : MonoBehaviour
 {
     [SerializeField] private PlateMode _plateMode;
+    [SerializeField] private bool _stayActive;
     [SerializeField] private GameObject[] _poweredObjects;
 
     private IPowered[] _powereds;
     private Collider2D[] _currentColliders = new Collider2D[2];
+    private bool _active;
 
     private void Start( )
     {
@@ -25,7 +27,18 @@ public class PPlate : MonoBehaviour
 
         for ( int i = 0; i < _poweredObjects.Length; i++ )
         {
-            _powereds[i] = _poweredObjects[i].GetComponent<IPowered>();
+            _powereds[i] = _poweredObjects[i].GetComponentInChildren<IPowered>();
+        }
+    }
+
+    private void FixedUpdate( )
+    {
+        if ( _active && _stayActive )
+        {
+            foreach ( var powered in _powereds )
+            {
+                powered.OnHold();
+            }
         }
     }
 
@@ -116,6 +129,8 @@ public class PPlate : MonoBehaviour
     {
         if ( PlayerAdd( other ) )
         {
+            _active = true;
+
             foreach ( var powered in _powereds )
             {
                 powered.OnPress();
@@ -136,7 +151,7 @@ public class PPlate : MonoBehaviour
             thisPlayer = 2;
         }
 
-        if ( PlayerCheck( thisPlayer ) )
+        if ( PlayerCheck( thisPlayer ) && !_stayActive )
         {
             foreach ( var powered in _powereds )
             {
@@ -147,7 +162,7 @@ public class PPlate : MonoBehaviour
 
     private void OnTriggerExit2D( Collider2D other )
     {
-        if ( PlayerRemove( other ) )
+        if ( PlayerRemove( other ) && !_stayActive )
         {
             foreach ( var powered in _powereds )
             {
